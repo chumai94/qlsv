@@ -1,0 +1,122 @@
+package com.example.model;
+
+import java.sql.Date;
+
+public class Class {
+    private String id;
+    private String name;
+    private String description;
+    private Date createdAt;
+    private Date lastModified;
+    private boolean deleted;
+    private boolean status;
+    private Date startDate;
+    private Date endDate;
+    private String shift;
+    private Users teacher;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getShift() {
+        return shift;
+    }
+
+    public void setShift(String shift) {
+        this.shift = shift;
+    }
+
+    public Users getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Users teacher) {
+        this.teacher = teacher;
+    }
+
+    public Class(String id, String name, String description, Date createdAt, Date lastModified, boolean deleted, boolean status, Date startDate, Date endDate, String shift, Users teacher) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+        this.deleted = deleted;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.shift = shift;
+        this.teacher = teacher;
+    }
+
+    public Class() {
+    }
+}
