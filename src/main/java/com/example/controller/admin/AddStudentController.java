@@ -19,6 +19,7 @@ import java.util.UUID;
 public class AddStudentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("activePage", "sinhvien");
         req.getRequestDispatcher("/view/admin/add-sinhvien.jsp").forward(req,resp);
     }
 
@@ -65,11 +66,12 @@ public class AddStudentController extends HttpServlet {
         try {
             userDAO.addUser(user);
             loginDAO.addLogin(login);
-
+            req.getSession().setAttribute("successMessage", "Thêm mới người dùng thành công!");
             resp.sendRedirect("/qlsv/admin/sinhvien");
         } catch (Exception e) {
             e.printStackTrace();
-            req.setAttribute("errorMessage", "Có lỗi xảy ra khi thêm người dùng.");
+            req.setAttribute("reopenModal", true);
+            req.setAttribute("error", "Có lỗi xảy ra khi thêm người dùng.");
             req.getRequestDispatcher("/view/admin/add-sinhvien.jsp").forward(req, resp);
         }
     }

@@ -21,6 +21,17 @@
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 	rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/view/assets/img/favicon.png" rel="icon">
+<link href="/view/assets/img/apple-touch-icon.png"
+	rel="apple-touch-icon">
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+	rel="stylesheet">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+	rel="stylesheet">
 <link href="/view/assets/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
 <link href="/view/assets/vendor/bootstrap-icons/bootstrap-icons.css"
@@ -33,7 +44,48 @@
 	rel="stylesheet">
 <link href="/view/assets/vendor/simple-datatables/style.css"
 	rel="stylesheet">
-<link href="/view/assets/css/style.css" rel="stylesheet">
+<style>
+    .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #333;
+        font-size: 1.5rem;
+        font-weight: 700;
+        transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: scale(1.1); /* Thêm hiệu ứng hover */
+    }
+
+    .logo-img {
+        width: 40px; /* Kích thước logo nếu bạn dùng hình ảnh */
+        height: 40px;
+        object-fit: cover;
+    }
+
+    .logo-text {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        color: #2d2d2d;
+    }
+
+    .logo:hover .logo-text {
+        color: #007bff; /* Thay đổi màu chữ khi hover */
+    }
+
+    .d-flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .py-4 {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+</style>
 </head>
 <body>
 	<main>
@@ -46,12 +98,6 @@
 						<div
 							class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-							<div class="d-flex justify-content-center py-4">
-								<a href="index.html"
-									class="logo d-flex align-items-center w-auto"> <span
-									class="d-none d-lg-block">QLSV</span>
-								</a>
-							</div>
 							<!-- End Logo -->
 
 							<div class="card mb-3">
@@ -97,8 +143,7 @@
 										</div>
 										<div class="col-12">
 											<p class="small mb-0">
-												Bạn quên mật khẩu? <a href="pages-register.html">Tạo tài
-													khoản</a>
+												Bạn quên mật khẩu?
 											</p>
 										</div>
 									</form>

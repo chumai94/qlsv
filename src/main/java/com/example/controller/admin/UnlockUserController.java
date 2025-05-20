@@ -19,9 +19,11 @@ public class UnlockUserController extends HttpServlet {
         Users users = userDAO.findById(id);
         if (users.getType().equals("giaovien")){
             userDAO.unLockUser(id);
-            resp.sendRedirect("/qlsv/list-user");
+            req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");
+            resp.sendRedirect("/qlsv/admin/list-user");
         }else{
             userDAO.unLockUser(id);
+            req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");
             resp.sendRedirect("/qlsv/admin/sinhvien");
         }
 

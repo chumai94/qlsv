@@ -6,11 +6,98 @@ public class Subject {
     private String id;
     private String name;
     private String description;
+    private double processCoefficient;
+    private double examCoefficient;
     private Date createAt;
     private Date lastmodified;
     private boolean deleted;
     private boolean status;
     private Cycle cycle;
+    private Users teacher;
+    private Date startDate;
+    private Date endDate;
+
+    public Subject(String id, String name, String description, double processCoefficient, double examCoefficient, Date createAt, Date lastmodified, boolean deleted, boolean status, Cycle cycle, Users teacher, Date startDate, Date endDate) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.processCoefficient = processCoefficient;
+        this.examCoefficient = examCoefficient;
+        this.createAt = createAt;
+        this.lastmodified = lastmodified;
+        this.deleted = deleted;
+        this.status = status;
+        this.cycle = cycle;
+        this.teacher = teacher;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Subject(String id, String name, String description, double processCoefficient, double examCoefficient, Date createAt, Date lastmodified, boolean deleted, boolean status, Cycle cycle, Users teacher) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.processCoefficient = processCoefficient;
+        this.examCoefficient = examCoefficient;
+        this.createAt = createAt;
+        this.lastmodified = lastmodified;
+        this.deleted = deleted;
+        this.status = status;
+        this.cycle = cycle;
+        this.teacher = teacher;
+    }
+
+    public double getProcessCoefficient() {
+        return processCoefficient;
+    }
+
+    public void setProcessCoefficient(double processCoefficient) {
+        this.processCoefficient = processCoefficient;
+    }
+
+    public double getExamCoefficient() {
+        return examCoefficient;
+    }
+
+    public void setExamCoefficient(double examCoefficient) {
+        this.examCoefficient = examCoefficient;
+    }
+
+    public Subject(String id, String name, String description, Date createAt, Date lastmodified, boolean deleted, boolean status, Cycle cycle, Users teacher) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.createAt = createAt;
+        this.lastmodified = lastmodified;
+        this.deleted = deleted;
+        this.status = status;
+        this.cycle = cycle;
+        this.teacher = teacher;
+    }
+
+    public Users getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Users teacher) {
+        this.teacher = teacher;
+    }
 
     public Cycle getCycle() {
         return cycle;

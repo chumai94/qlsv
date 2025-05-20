@@ -19,9 +19,11 @@ public class DeleteUserController extends HttpServlet {
         Users users = userDAO.findById(id);
         if (users.getType().equals("giaovien")){
             userDAO.deleteUser(id);
+            req.getSession().setAttribute("successMessage", "Xóa người dùng thành công!");
             resp.sendRedirect("/qlsv/list-user");
         }else{
             userDAO.deleteUser(id);
+            req.getSession().setAttribute("successMessage", "Xóa người dùng thành công!");
             resp.sendRedirect("/qlsv/admin/sinhvien");
         }
     }

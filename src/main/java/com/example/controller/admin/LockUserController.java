@@ -19,9 +19,11 @@ public class LockUserController extends HttpServlet {
         Users users = userDAO.findById(id);
         if (users.getType().equals("giaovien")){
             userDAO.lockUser(id);
-            resp.sendRedirect("/qlsv/list-user");
+            req.getSession().setAttribute("successMessage", "Khóa người dùng thành công!");
+            resp.sendRedirect("/qlsv/admin/list-user");
         }else{
             userDAO.lockUser(id);
+            req.getSession().setAttribute("successMessage", "Khóa người dùng thành công!");
             resp.sendRedirect("/qlsv/admin/sinhvien");
         }
 

@@ -10,10 +10,8 @@ public class Class {
     private Date lastModified;
     private boolean deleted;
     private boolean status;
-    private Date startDate;
-    private Date endDate;
-    private String shift;
     private Users teacher;
+
 
     public String getId() {
         return id;
@@ -71,30 +69,6 @@ public class Class {
         this.status = status;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getShift() {
-        return shift;
-    }
-
-    public void setShift(String shift) {
-        this.shift = shift;
-    }
-
     public Users getTeacher() {
         return teacher;
     }
@@ -103,7 +77,7 @@ public class Class {
         this.teacher = teacher;
     }
 
-    public Class(String id, String name, String description, Date createdAt, Date lastModified, boolean deleted, boolean status, Date startDate, Date endDate, String shift, Users teacher) {
+    public Class(String id, String name, String description, Date createdAt, Date lastModified, boolean deleted, boolean status, Users teacher) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -111,9 +85,6 @@ public class Class {
         this.lastModified = lastModified;
         this.deleted = deleted;
         this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.shift = shift;
         this.teacher = teacher;
     }
 

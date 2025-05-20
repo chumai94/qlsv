@@ -33,7 +33,29 @@ public class CycleDAO extends DBConnect{
         }
         return cycleList;
     }
+    public List<Cycle> getCyclesByStudentId(String studentId) {
+        List<Cycle> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT c.id, c.name " +
+                "FROM cycle c " +
+                "JOIN subject s ON c.id = s.cycle_id " +
+                "JOIN score_subject ss ON ss.subject_id = s.id " +
+                "JOIN score sc ON sc.id = ss.score_id " +
+                "WHERE sc.user_id = ?";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, studentId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Cycle cycle = new Cycle();
+                cycle.setId(rs.getString("id"));
+                cycle.setName(rs.getString("name"));
+                list.add(cycle);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
     public Cycle findById(String id) {
         String sql = "SELECT * FROM cycle WHERE id = ?";
         try {

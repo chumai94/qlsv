@@ -9,18 +9,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/teacher/thongtin-lop")
-public class ClassStudent extends HttpServlet {
+@WebServlet("/teacher/sinhvien-lop")
+public class ClassStudentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = (String) req.getSession().getAttribute("id");
-        List<Class_User> classUsers = new ArrayList<>();
-        ClassUserDAO classUserDAO = new ClassUserDAO();
-        classUsers = classUserDAO.getStudentsByTeacher(id);
+        String classId = req.getParameter("classId");
+        List<Class_User> classUsers = new ClassUserDAO().getStudentsByTeacher(id,classId);
         req.setAttribute("c",classUsers);
+        req.setAttribute("activePage", "lophoc");
         req.getRequestDispatcher("/view/teacher/class-sinhvien.jsp").forward(req,resp);
     }
 }

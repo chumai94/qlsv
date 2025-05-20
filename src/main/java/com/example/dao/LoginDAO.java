@@ -41,7 +41,7 @@ public class LoginDAO extends DBConnect{
 		}
 	}
 	public Users login(String username, String password) {
-		String sql = "SELECT u.*, l.password FROM login l JOIN users u ON l.user_id = u.id WHERE l.username = ? AND l.deleted = 0";
+		String sql = "SELECT u.*, l.password FROM login l JOIN users u ON l.user_id = u.id WHERE l.username = ? AND l.deleted = 0 AND u.lock_status = 0 AND u.deleted = 0";
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -74,6 +74,39 @@ public class LoginDAO extends DBConnect{
 			e.printStackTrace();
 		}
 
-		return null; // đăng nhập thất bại
+		return null;
 	}
+	public Login getLoginByUserId(String userId) {
+		String sql = "SELECT * FROM login WHERE user_id = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, userId);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				Users users = new UserDAO().findById(rs.getString("user_id"));
+				Login login = new Login();
+				login.setId(rs.getString("id"));
+				login.setUsername(rs.getString("username"));
+				login.setPassword(rs.getString("password"));
+				login.setDeleted(rs.getBoolean("deleted"));
+				login.setUsers(users);
+				return login;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public void updatePassByUserId(String userId, String password) {
+		String sql = "UPDATE login SET password = ? WHERE user_id = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, password);
+			ps.setString(2, userId);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

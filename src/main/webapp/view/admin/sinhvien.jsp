@@ -1,202 +1,236 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html lang="en">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html lang="vi">
 <%@ include file="layout/head.jsp"%>
-
-
 <body>
 
 	<%@ include file="layout/header.jsp"%>
-	<%@ include file="layout/sidebar.jsp"%>
+	<div class="container-fluid p-0">
+		<div class="row m-0">
+			<%@ include file="layout/sidebar.jsp"%>
 
-	<main id="main" class="main">
+			<div class="col-md-9 col-lg-9 main-content">
+				<div class="content-header">
+					<h2>Danh sách sinh viên</h2>
+				</div>
 
-		<section class="section">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="card">
-						<div class="card-body">
-							<h5 class="card-title">Danh sách sinh viên</h5>
-							<div>
-								<form>
-									<div class="row ">
-										<div class="form-group col-md-6">
-											<label for="inputEmail4">Mã/Tên/Tài khoản GV</label> <input
-												type="email" class="form-control" id="inputEmail4"
-												placeholder="Email">
-										</div>
-										<div class="col-md-1"></div>
-										<div class="form-group col-md-5">
-											<label for="inputPassword4">Bộ môn</label> <select
-												class="form-select" aria-label="Default select example">
-												<option selected>Open this select menu</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-												<option value="3">Three</option>
-											</select>
-										</div>
-									</div>
-									<div class="row mt-2">
-										<div class="form-group col-md-5">
-											<label for="inputEmail4">Chức vụ</label> <select
-												class="form-select" aria-label="Default select example">
-												<option selected>Open this select menu</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-												<option value="3">Three</option>
-											</select>
-
-
-										</div>
-										<div class="col-md-2 text-center">
-											<button type="submit" class="btn btn-primary"
-												style="margin-top: 23px;">Sign in</button>
-										</div>
-										<div class="form-group col-md-5">
-											<label for="inputPassword4">Trạng thái tài khoản</label> <select
-												class="form-select" size="3"
-												aria-label="size 3 select example">
-												<option selected>Tất cả</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-											</select>
-										</div>
-										<div class="form-group col-md-5 row">
-											<div class="col-md-4" style="margin-top: -60px;">
+				<div class="search-container">
+					<form method="get"
+						action="${pageContext.request.contextPath}/admin/sinhvien">
+						<input type="text" name="keyword" class="search-input"
+							placeholder="Tìm kiếm theo tên..." value="${keyword}">
+						<button class="btn-search" type="submit">Tìm</button>
+						<a href="${pageContext.request.contextPath}/admin/add-sinhvien"
+							class="btn btn-success">Thêm mới</a> <a href="#"
+							class="btn btn-success" data-bs-toggle="modal"
+							data-bs-target="#uploadModal">Thêm nhiều</a>
+					</form>
+				</div>
+				<c:if test="${not empty sessionScope.successMessage}">
+					<div class="alert alert-success alert-dismissible fade show"
+						role="alert">
+						<strong>✅</strong> ${sessionScope.successMessage}
+						<button type="button" class="btn-close" data-bs-dismiss="alert"
+							aria-label="Close"></button>
+					</div>
+					<c:remove var="successMessage" scope="session" />
+				</c:if>
+				<div class="table-container">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>STT</th>
+								<th>Mã GV</th>
+								<th>Tên</th>
+								<th>SĐT</th>
+								<th>Email</th>
+								<th>Địa chỉ</th>
+								<th>Ngày sinh</th>
+								<th>Chức vụ</th>
+								<th>Vị trí</th>
+								<th>Trạng thái</th>
+								<th>Thao tác</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${requestScope.usersList}" var="user"
+								varStatus="status">
+								<tr>
+									<td>${status.index + 1}</td>
+									<td>${user.id}</td>
+									<td>${user.name}</td>
+									<td>${user.phone}</td>
+									<td>${user.email}</td>
+									<td>${user.address}</td>
+									<td>${user.dateOfBirth}</td>
+									<td>${user.type == 'sinhvien' ? 'Sinh viên' : ''}</td>
+									<td><c:choose>
+											<c:when test="${user.typePosition == 'lien_thong'}">Liên thông</c:when>
+											<c:when test="${user.typePosition == 'chinh_quy'}">Chính quy</c:when>
+											<c:otherwise>Không xác định</c:otherwise>
+										</c:choose></td>
+									<c:choose>
+										<c:when test="${user.lockStatus}">
+											<td class="text-danger">Đã khóa</td>
+										</c:when>
+										<c:otherwise>
+											<td class="text-success">Hoạt động</td>
+										</c:otherwise>
+									</c:choose>
+									<td>
+										<div class="action-icons">
+											<div class="action-icons">
+											    <a class="text-success"
+                                                href="${pageContext.request.contextPath}/admin/all-score-student?id=${user.id}">
+                                                <i class="fa-solid fa-table"></i>
+                                                </a>
 												<a
-													href="${pageContext.request.contextPath}/admin/add-sinhvien"
-													class="btn btn-primary mt-5 ">Thêm mới</a>
-											</div>
-											<div class="col-md-4" style="margin-top: -60px;">
-												<button type="submit" class="btn btn-primary mt-5 ">Sign
-													in</button>
-											</div>
-											<div class="col-md-4" style="margin-top: -60px;">
-												<button type="submit" class="btn btn-primary mt-5 ">Sign
-													in</button>
-											</div>
-										</div>
-									</div>
-
-								</form>
-							</div>
-							<table class="table">
-								<thead>
-									<tr>
-										<th>STT</th>
-										<th>Tên</th>
-										<th>SĐT</th>
-										<th>Email</th>
-										<th>Địa chỉ</th>
-										<th>Ngày sinh</th>
-										<th>Chức vụ</th>
-										<th>Vị trí</th>
-										<th>Created At</th>
-										<th>Last Modified</th>
-										<th>khóa tk</th>
-										<th>xóa tk</th>
-										<th>Thao tác</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${requestScope.usersList}" var="user">
-										<tr>
-
-											<td>${user.id}</td>
-											<td>${user.name}</td>
-											<td>${user.phone}</td>
-											<td>${user.email}</td>
-											<td>${user.address}</td>
-											<td>${user.dateOfBirth}</td>
-											<td>${user.type}</td>
-											<td>${user.typePosition}</td>
-											<td>${user.createAt}</td>
-											<td>${user.lastmodified}</td>
-											<c:choose>
-												<c:when test="${user.lockStatus}">
-													<td>da khoa</td>
-												</c:when>
-												<c:otherwise>
-													<td>mo khoa</td>
-												</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${user.deleted}">
-													<td>da xoa</td>
-												</c:when>
-												<c:otherwise>
-													<td>dag hd</td>
-												</c:otherwise>
-											</c:choose>
-											<td><a
-												href="${pageContext.request.contextPath}/admin/update-user?id=${user.id}"
-												class="text-success"><i
-													class="fa-regular fa-pen-to-square"></i></a> <a
-												href="${pageContext.request.contextPath}/admin/delete-user?id=${user.id}"
-												class="text-danger"><i class="fa-solid fa-trash"></i></a> <c:choose>
+													href="${pageContext.request.contextPath}/admin/update-user?id=${user.id}"
+													class="text-success"> <i
+													class="fa-regular fa-pen-to-square"></i>
+												</a>
+												<c:choose>
 													<c:when test="${user.lockStatus}">
-														<a
-															href="${pageContext.request.contextPath}/admin/unlock-user?id=${user.id}"
-															class="text-danger"><i class="fa-solid fa-lock"></i></a>
+
+														<a href="#" class="text-danger"
+															onclick="confirmUnlock('${user.id}')"> <i
+															class="fa-solid fa-lock"></i>
+														</a>
 													</c:when>
 													<c:otherwise>
-														<a
-															href="${pageContext.request.contextPath}/admin/lock-user?id=${user.id}"
-															class="text-success"><i class="fa-solid fa-lock-open"></i></a>
+														<a href="#" class="text-success"
+															onclick="confirmLock('${user.id}')"> <i
+															class="fa-solid fa-lock-open"></i>
+														</a>
 													</c:otherwise>
-												</c:choose></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+												</c:choose>
+												<a href="#" class="text-success"
+													onclick="confirmResetPass('${user.id}')"><i
+													class="fa-solid fa-rotate-left"></i></a> <a href="#"
+													class="text-danger" onclick="confirmDelete('${user.id}')">
+													<i class="fa-solid fa-trash"></i>
+												</a>
+											</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<nav aria-label="Page navigation example"
+						style="margin-left: 38rem;">
+						<ul class="pagination justify-content-center">
 
-							<!-- End Default Table Example -->
-							<div class="">
-								<nav aria-label="Page navigation example text-end">
-									<ul class="pagination">
-										<li class="page-item"><a class="page-link" href="#"
-											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-												<span class="sr-only">Previous</span>
-										</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#"
-											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-												<span class="sr-only">Next</span>
-										</a></li>
-									</ul>
-								</nav>
-							</div>
+							<!-- Previous -->
+							<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+								<a class="page-link"
+								href="?page=${currentPage - 1}&keyword=${keyword}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a>
+							</li>
+
+							<!-- Pages -->
+							<c:if test="${totalPages > 1}">
+								<!-- Trang đầu và ... nếu cần -->
+								<c:if test="${currentPage > 2}">
+									<li class="page-item"><a class="page-link"
+										href="?page=1&keyword=${keyword}">1</a></li>
+									<li class="page-item disabled"><span class="page-link">...</span></li>
+								</c:if>
+
+								<!-- Các trang gần -->
+								<c:forEach begin="${currentPage - 1}" end="${currentPage + 1}"
+									var="i">
+									<c:if test="${i >= 1 && i <= totalPages}">
+										<li class="page-item ${i == currentPage ? 'active' : ''}">
+											<a class="page-link" href="?page=${i}&keyword=${keyword}">${i}</a>
+										</li>
+									</c:if>
+								</c:forEach>
+
+								<!-- Trang cuối và ... nếu cần -->
+								<c:if test="${currentPage < totalPages - 1}">
+									<li class="page-item disabled"><span class="page-link">...</span></li>
+									<li class="page-item"><a class="page-link"
+										href="?page=${totalPages}&keyword=${keyword}">${totalPages}</a></li>
+								</c:if>
+							</c:if>
+
+							<!-- Next -->
+							<li
+								class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link"
+								href="?page=${currentPage + 1}&keyword=${keyword}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+							</li>
+
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="uploadModal" tabindex="-1"
+		aria-labelledby="uploadModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Header -->
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="uploadModalLabel">Tải tệp
+						Excel lên để thêm mới người dùng</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+
+				<!-- Body -->
+				<div class="modal-body">
+				    <form action="/qlsv/download-excel" method="get">
+                       <button type="submit">Tải file Excel mẫu</button>
+                    </form>
+					<form action="/qlsv/admin/uploads" method="post"
+						enctype="multipart/form-data">
+						<div class="mb-3">
+							<label for="formFile" class="form-label">Chọn file Excel
+								(.xlsx)</label> <input class="form-control" type="file" id="formFile"
+								name="file" accept=".xlsx" required>
 						</div>
-					</div>
+						<button type="submit" class="btn btn-primary">Upload</button>
+					</form>
 				</div>
 
 			</div>
-		</section>
-
-	</main>
-	<!-- End #main -->
-
-	<a href="#"
-		class="back-to-top d-flex align-items-center justify-content-center"><i
-		class="bi bi-arrow-up-short"></i></a>
-
-	<!-- Vendor JS Files -->
-	<script src="/view/assets/vendor/apexcharts/apexcharts.min.js"></script>
-	<script src="/view/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<script src="/view/assets/vendor/chart.js/chart.min.js"></script>
-	<script src="/view/assets/vendor/echarts/echarts.min.js"></script>
-	<script src="/view/assets/vendor/quill/quill.min.js"></script>
+		</div>
+	</div>
 	<script
-		src="/view/assets/vendor/simple-datatables/simple-datatables.js"></script>
-	<script src="/view/assets/vendor/tinymce/tinymce.min.js"></script>
-	<script src="/view/assets/vendor/php-email-form/validate.js"></script>
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function confirmDelete(userId) {
+			if (confirm("Bạn có chắc chắn muốn xóa " + userId + " này?")) {
+				window.location.href = "/qlsv/admin/delete-user?id=" + userId;
+			}
+		}
+		function confirmLock(userId) {
+			if (confirm("Bạn có chắc chắn muốn khóa tài khoản " + userId
+					+ " này?")) {
+				window.location.href = "/qlsv/admin/lock-user?id=" + userId;
+			}
+		}
 
-	<!-- Template Main JS File -->
-	<script src="/view/assets/js/main.js"></script>
-
+		function confirmResetPass(userId) {
+			if (confirm("Bạn có chắc chắn muốn reset mật khẩu " + userId
+					+ " này?")) {
+				window.location.href = "/qlsv/admin/reset-pass?id=" + userId;
+			}
+		}
+		function confirmUnlock(userId) {
+			if (confirm("Bạn có chắc chắn muốn mở khóa tài khoản " + userId
+					+ " này?")) {
+				// Nếu người dùng xác nhận, chuyển đến trang mở khóa
+				window.location.href = "/qlsv/admin/unlock-user?id=" + userId;
+			}
+		}
+	</script>
 </body>
-
 </html>

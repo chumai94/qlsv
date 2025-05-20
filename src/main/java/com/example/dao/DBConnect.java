@@ -13,11 +13,16 @@ public class DBConnect {
             String pass = "";
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url,user,pass);
-            System.out.println("connect success");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public static Connection getConnection() {
+        if (conn == null) {
+            new DBConnect();
+        }
+        return conn;
     }
 }

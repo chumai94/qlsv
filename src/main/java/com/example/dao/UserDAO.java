@@ -11,9 +11,107 @@ import java.util.List;
 
 
 public class UserDAO extends DBConnect{
-	public List<Users> getAll(){
+    public List<Users> searchUsers(String keyword, int offset, int limit) {
         List<Users> usersList = new ArrayList<>();
-        String sql = "select * from users where type='giaovien'";
+        String sql = "SELECT * FROM users " +
+                "WHERE type='giaovien' AND deleted = 0 AND name LIKE ? " +
+                "LIMIT ? OFFSET ?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + keyword + "%");
+            pst.setInt(2, limit);
+            pst.setInt(3, offset);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Users user = new Users(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getDate("date_of_birth"),
+                        rs.getString("type"),
+                        rs.getString("type_position"),
+                        rs.getDate("starttime"),
+                        rs.getDate("endtime"),
+                        rs.getDate("create_at"),
+                        rs.getDate("lastmodified"),
+                        rs.getBoolean("deleted"),
+                        rs.getBoolean("lock_status")
+                );
+                usersList.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usersList;
+    }
+    public int countUsers(String keyword) {
+        String sql = "SELECT COUNT(*) FROM users WHERE type='giaovien' AND deleted = 0 AND name LIKE ?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + keyword + "%");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+    public List<Users> searchStudent(String keyword, int offset, int limit) {
+        List<Users> usersList = new ArrayList<>();
+        String sql = "SELECT * FROM users " +
+                "WHERE type='sinhvien' AND deleted = 0 AND name LIKE ? " +
+                "LIMIT ? OFFSET ?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + keyword + "%");
+            pst.setInt(2, limit);
+            pst.setInt(3, offset);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Users user = new Users(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getDate("date_of_birth"),
+                        rs.getString("type"),
+                        rs.getString("type_position"),
+                        rs.getDate("starttime"),
+                        rs.getDate("endtime"),
+                        rs.getDate("create_at"),
+                        rs.getDate("lastmodified"),
+                        rs.getBoolean("deleted"),
+                        rs.getBoolean("lock_status")
+                );
+                usersList.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usersList;
+    }
+    public int countStudent(String keyword) {
+        String sql = "SELECT COUNT(*) FROM users WHERE type='sinhvien' AND deleted = 0 AND name LIKE ?";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, "%" + keyword + "%");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+    public List<Users> getAll(){
+        List<Users> usersList = new ArrayList<>();
+        String sql = "select * from users where type='giaovien' and deleted = 0";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
@@ -41,7 +139,7 @@ public class UserDAO extends DBConnect{
     }
     public List<Users> getAllStudent(){
         List<Users> usersList = new ArrayList<>();
-        String sql = "select * from users where type='sinhvien'";
+        String sql = "select * from users where type='sinhvien' and deleted = 0";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
@@ -183,5 +281,59 @@ public class UserDAO extends DBConnect{
             e.printStackTrace();
         }
     }
+    public List<Users> getAllStudentNotInClass(String classId) {
+        List<Users> usersList = new ArrayList<>();
+        String sql = "SELECT u.* " +
+                "FROM users u " +
+                "WHERE u.type = 'sinhvien' " +
+                "AND u.id NOT IN ( " +
+                "    SELECT cu.student_id FROM class_user cu " +
+                "    WHERE cu.class_id = ? )";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, classId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Users users = new Users(rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("address"),
+                        rs.getDate("date_of_birth"),
+                        rs.getString("type"),
+                        rs.getString("type_position"),
+                        rs.getDate("starttime"),
+                        rs.getDate("endtime"),
+                        rs.getDate("create_at"),
+                        rs.getDate("lastmodified"),
+                        rs.getBoolean("deleted"),
+                        rs.getBoolean("lock_status"));
+                usersList.add(users);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usersList;
+    }
+    public int countTeachers() {
+        String sql = "SELECT COUNT(*) FROM users WHERE type = 'giaovien' AND deleted = 0";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
+    public int countStudents() {
+        String sql = "SELECT COUNT(*) FROM users WHERE type = 'sinhvien' AND deleted = 0";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

@@ -9,18 +9,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/teacher/lop-hoc")
+@WebServlet("/teacher/thongtin-lop")
 public class ClassController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = (String) req.getSession().getAttribute("id");
-        List<Class> classes = new ArrayList<>();
-        ClassDAO classDao = new ClassDAO();
-        classes = classDao.getClassByTeacher(id);
-        req.setAttribute("classes",classes);
+        List<Class> classes = new ClassDAO().getClassByTeacher(id);
+        req.setAttribute("c",classes);
+        req.setAttribute("activePage", "lophoc");
         req.getRequestDispatcher("/view/teacher/class.jsp").forward(req,resp);
     }
 }

@@ -23,6 +23,11 @@ public class UpdateUserController extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         Users users = new Users();
         users = userDAO.findById(id);
+        if (users.getType().equals("giaovien")){
+            req.setAttribute("activePage", "giaovien");
+        }else {
+            req.setAttribute("activePage", "sinhvien");
+        }
         req.setAttribute("users", users);
         req.getRequestDispatcher("/view/admin/update-user.jsp").forward(req, resp);
 
@@ -72,8 +77,10 @@ public class UpdateUserController extends HttpServlet {
             userDAO.updateUser(user);
             loginDAO.updateLogin(login);
             if (user.getType().equals("giaovien")){
-                resp.sendRedirect("/qlsv/list-user");
+                req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
+                resp.sendRedirect("/qlsv/admin/list-user");
             }else {
+                req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
                 resp.sendRedirect("/qlsv/admin/sinhvien");
             }
 
