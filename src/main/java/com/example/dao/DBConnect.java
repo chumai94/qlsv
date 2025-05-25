@@ -6,19 +6,21 @@ import java.sql.SQLException;
 
 public class DBConnect {
     protected static Connection conn = null;
-    public DBConnect(){
+
+    public DBConnect() {
         try {
-            String url = "jdbc:mysql://localhost:3306/qlsv";
-            String user = "root";
-            String pass = "";
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url,user,pass);
+            String url = "jdbc:oracle:thin:@//localhost:1521/ORCL";
+            String user = "TRUNGNT_USER";
+            String pass = "abc123";
+            Class.forName("oracle.jdbc.OracleDriver");
+            conn = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Oracle JDBC Driver not found.", e);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Connection failed.", e);
         }
     }
+
     public static Connection getConnection() {
         if (conn == null) {
             new DBConnect();
