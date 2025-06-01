@@ -3,8 +3,7 @@ package com.example.controller.admin;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
-import com.example.model.Login;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,7 +37,7 @@ public class AddStudentController extends HttpServlet {
 
 
         String hashedPassword = BCrypt.withDefaults().hashToString(12,dateOfBirth.toCharArray());
-        Users user = new Users();
+        Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
         user.setId(id);
         user.setName(name);
         user.setPhone(phone);

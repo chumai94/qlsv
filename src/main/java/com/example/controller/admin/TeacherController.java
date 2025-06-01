@@ -3,8 +3,7 @@ package com.example.controller.admin;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
-import com.example.model.Login;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,7 +34,7 @@ public class TeacherController extends HttpServlet {
         }
 
         UserDAO userDAO = new UserDAO();
-        List<Users> usersList = userDAO.searchUsers(keyword, (page - 1) * recordsPerPage, recordsPerPage);
+        List<Teacher> usersList = userDAO.searchUsers(keyword, (page - 1) * recordsPerPage, recordsPerPage);
         int totalRecords = userDAO.countUsers(keyword);
         int totalPages = (int) Math.ceil(totalRecords * 1.0 / recordsPerPage);
 
@@ -60,7 +59,7 @@ public class TeacherController extends HttpServlet {
         String loaiChucVu = req.getParameter("loaiChucVu");
 
         UserDAO userDAO = new UserDAO();
-        Users check = userDAO.findById(id);
+        Teacher check = userDAO.findById(id);
         if (check != null){
             String errorMessage = "Bạn đã nhập trùng mã giáo viên đã có trong hệ thống. Mời nhập lại!";
             String encodedError = URLEncoder.encode(errorMessage, StandardCharsets.UTF_8.toString());
@@ -68,7 +67,7 @@ public class TeacherController extends HttpServlet {
             return;
         }
         String hashedPassword = BCrypt.withDefaults().hashToString(12, dateOfBirth.toCharArray());
-        Users user = new Users();
+        Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
         user.setId(id);
         user.setName(name);
         user.setPhone(phone);

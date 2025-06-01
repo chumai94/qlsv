@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
         if (failedAttempts == null) failedAttempts = 0;
         UserDAO userDAO = new UserDAO();
         LoginDAO loginDAO = new LoginDAO();
-        Users userFromDb = userDAO.findById(username);
+        Teacher userFromDb = userDAO.findById(username);
         if (userFromDb == null) {
             req.setAttribute("error", "Tài khoản không tồn tại.");
             req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
@@ -44,7 +44,7 @@ public class LoginController extends HttpServlet {
             req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
             return;
         }
-        Users userLogin = loginDAO.login(username, password);
+        Teacher userLogin = loginDAO.login(username, password);
         if (userLogin != null) {
             session.removeAttribute("failedAttempts");
 

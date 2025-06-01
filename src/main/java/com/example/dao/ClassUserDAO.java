@@ -1,8 +1,8 @@
 package com.example.dao;
 
 import com.example.model.Class;
-import com.example.model.Class_User;
-import com.example.model.Users;
+import com.example.model.Class_Student;
+import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassUserDAO extends DBConnect{
-    public List<Class_User> getStudentsByTeacher(String teacherId,String classId) {
-        List<Class_User> list = new ArrayList<>();
+    public List<Class_Student> getStudentsByTeacher(String teacherId, String classId) {
+        List<Class_Student> list = new ArrayList<>();
         String sql = "SELECT c.*, u.* " +
                 "FROM class c " +
                 "JOIN class_user cu ON c.id = cu.class_id " +
@@ -25,7 +25,7 @@ public class ClassUserDAO extends DBConnect{
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Users student = new Users(
+                Teacher student = new Teacher(
                         rs.getString("u.id"),
                         rs.getString("u.name"),
                         rs.getString("u.phone"),
@@ -53,7 +53,7 @@ public class ClassUserDAO extends DBConnect{
                         null
                 );
 
-                list.add(new Class_User(student, clazz));
+                list.add(new Class_Student(student, clazz));
             }
 
             rs.close();
@@ -63,8 +63,8 @@ public class ClassUserDAO extends DBConnect{
 
         return list;
     }
-    public List<Class_User> getAllStudentByClassId(String classId, String searchTerm) {
-        List<Class_User> classUsers = new ArrayList<>();
+    public List<Class_Student> getAllStudentByClassId(String classId, String searchTerm) {
+        List<Class_Student> classUsers = new ArrayList<>();
         String sql = "SELECT * FROM class_user cu " +
                 "JOIN users u ON cu.student_id = u.id " +
                 "WHERE cu.class_id = ? " +
@@ -76,9 +76,9 @@ public class ClassUserDAO extends DBConnect{
             ps.setString(3, "%" + searchTerm + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Users student = new UserDAO().findById(rs.getString("student_id"));
+                Teacher student = new UserDAO().findById(rs.getString("student_id"));
                 Class clazz = new ClassDAO().getById(rs.getString("class_id"));
-                Class_User classUser = new Class_User(student, clazz);
+                Class_Student classUser = new Class_Student(student, clazz);
                 classUsers.add(classUser);
             }
         } catch (SQLException e) {
@@ -86,11 +86,11 @@ public class ClassUserDAO extends DBConnect{
         }
         return classUsers;
     }
-    public void addStudentsToClass(String classId, List<Users> students) {
+    public void addStudentsToClass(String classId, List<Teacher> students) {
         String sql = "INSERT INTO class_user (class_id, student_id) VALUES (?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            for (Users student : students) {
+            for (Teacher student : students) {
                 ps.setString(1, classId);
                 ps.setString(2, student.getId());
                 ps.addBatch();

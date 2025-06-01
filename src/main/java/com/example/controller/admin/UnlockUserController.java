@@ -1,7 +1,7 @@
 package com.example.controller.admin;
 
 import com.example.dao.UserDAO;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +16,7 @@ public class UnlockUserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         UserDAO userDAO = new UserDAO();
-        Users users = userDAO.findById(id);
+        Teacher users = userDAO.findById(id);
         if (users.getType().equals("giaovien")){
             userDAO.unLockUser(id);
             req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");

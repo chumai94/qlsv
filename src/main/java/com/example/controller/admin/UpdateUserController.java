@@ -1,10 +1,8 @@
 package com.example.controller.admin;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
-import com.example.model.Login;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.UUID;
 
 @WebServlet("/admin/update-user")
 public class UpdateUserController extends HttpServlet {
@@ -21,7 +18,7 @@ public class UpdateUserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         UserDAO userDAO = new UserDAO();
-        Users users = new Users();
+        Teacher users = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
         users = userDAO.findById(id);
         if (users.getType().equals("giaovien")){
             req.setAttribute("activePage", "giaovien");
@@ -48,7 +45,7 @@ public class UpdateUserController extends HttpServlet {
 
 
         String hashedPassword = BCrypt.withDefaults().hashToString(12,dateOfBirth.toCharArray());
-        Users user = new Users();
+        Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
         user.setId(id);
         user.setName(name);
         user.setPhone(phone);
@@ -64,18 +61,13 @@ public class UpdateUserController extends HttpServlet {
         user.setLockStatus(false);
 
 
-        Login login = new Login();
-        login.setId(UUID.randomUUID().toString());
-        login.setUsername(id);
-        login.setPassword(hashedPassword);
-        login.setDeleted(false);
 
         UserDAO userDAO = new UserDAO();
-        LoginDAO loginDAO = new LoginDAO();
+
 
         try {
             userDAO.updateUser(user);
-            loginDAO.updateLogin(login);
+
             if (user.getType().equals("giaovien")){
                 req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
                 resp.sendRedirect("/qlsv/admin/list-user");

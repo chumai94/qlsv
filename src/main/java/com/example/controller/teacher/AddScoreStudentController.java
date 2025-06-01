@@ -3,10 +3,9 @@ package com.example.controller.teacher;
 import com.example.dao.ScoreDAO;
 import com.example.dao.ScoreSubjectDAO;
 import com.example.dao.SubjectDAO;
-import com.example.model.Score;
 import com.example.model.ScoreSubject;
 import com.example.model.Subject;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,8 +16,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @WebServlet("/teacher/add-score")
@@ -26,7 +23,7 @@ public class AddScoreStudentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String studentId = req.getParameter("studentId");
-        Users users = new Users();
+        Teacher users = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
         users.setId(studentId);
         Score score = new Score();
         score.setId(UUID.randomUUID().toString().substring(0,16));

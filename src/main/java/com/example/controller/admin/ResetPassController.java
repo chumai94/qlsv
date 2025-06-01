@@ -4,8 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.dao.LoginDAO;
 import com.example.dao.MailDAO;
 import com.example.dao.UserDAO;
-import com.example.model.Users;
-import jakarta.mail.MessagingException;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +19,7 @@ public class ResetPassController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        Users users = new UserDAO().findById(id);
+        Teacher users = new UserDAO().findById(id);
         try {
             String plainPass = new SimpleDateFormat("yyyy-MM-dd").format(users.getDateOfBirth());
             String hashedPass = BCrypt.withDefaults().hashToString(12, plainPass.toCharArray());

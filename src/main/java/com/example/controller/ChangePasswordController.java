@@ -2,7 +2,6 @@ package com.example.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.dao.LoginDAO;
-import com.example.model.Login;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

@@ -1,8 +1,7 @@
 package com.example.dao;
 
 import com.example.model.Class;
-import com.example.model.Subject;
-import com.example.model.Users;
+import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +23,7 @@ public class ClassDAO extends DBConnect {
             pst.setString(1, teacherId);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Users teacher = new Users(
+                Teacher teacher = new Teacher(
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("phone"),
@@ -98,7 +97,7 @@ public class ClassDAO extends DBConnect {
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 String teacherId = rs.getString("teacher_id");
-                Users teacher = new UserDAO().findById(teacherId);
+                Teacher teacher = new UserDAO().findById(teacherId);
                 Class clazz = new Class(
                         rs.getString("id"),
                         rs.getString("name"),
@@ -134,7 +133,7 @@ public class ClassDAO extends DBConnect {
                 cls.setDeleted(rs.getBoolean("deleted"));
                 cls.setStatus(rs.getBoolean("status"));
                 String teacherId = rs.getString("teacher_id");
-                Users teacher = new UserDAO().findById(teacherId);
+                Teacher teacher = new UserDAO().findById(teacherId);
                 cls.setTeacher(teacher);
                 classList.add(cls);
             }
@@ -174,7 +173,7 @@ public class ClassDAO extends DBConnect {
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
                 String teacherId = rs.getString("teacher_id");
-                Users teacher = new UserDAO().findById(teacherId);
+                Teacher teacher = new UserDAO().findById(teacherId);
                 Class clazz = new Class(
                         rs.getString("id"),
                         rs.getString("name"),

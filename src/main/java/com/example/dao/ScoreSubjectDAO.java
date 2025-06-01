@@ -46,7 +46,7 @@ public class ScoreSubjectDAO extends DBConnect {
                     subject.setStartDate(rs.getDate("subject_start_date"));
                     subject.setEndDate(rs.getDate("subject_end_date"));
 
-                    Users user = new Users();
+                    Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
                     user.setId(rs.getString("student_id"));
                     user.setName(rs.getString("student_name"));
 
@@ -264,7 +264,7 @@ public class ScoreSubjectDAO extends DBConnect {
                 subject.setName(rs.getString("subject_name"));
                 subject.setProcessCoefficient(rs.getDouble("subject_process_coefficient"));
                 subject.setExamCoefficient(rs.getDouble("subject_exam_coefficient"));
-                Users user = new Users();
+                Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
                 user.setId(rs.getString("student_id"));
                 user.setName(rs.getString("student_name"));
 
@@ -383,7 +383,7 @@ public class ScoreSubjectDAO extends DBConnect {
                     subject.setStartDate(rs.getDate("subject_start_date"));
                     subject.setEndDate(rs.getDate("subject_end_date"));
 
-                    Users user = new Users();
+                    Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
                     user.setId(rs.getString("student_id"));
                     user.setName(rs.getString("student_name"));
 

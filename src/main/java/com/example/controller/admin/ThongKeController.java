@@ -5,7 +5,6 @@ import com.example.dao.CycleDAO;
 import com.example.dao.ScoreDAO;
 import com.example.dao.UserDAO;
 import com.example.model.Cycle;
-import com.example.model.Score;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

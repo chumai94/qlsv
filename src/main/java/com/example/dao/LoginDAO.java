@@ -1,8 +1,7 @@
 package com.example.dao;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.model.Login;
-import com.example.model.Users;
+import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,7 +39,7 @@ public class LoginDAO extends DBConnect{
 			e.printStackTrace();
 		}
 	}
-	public Users login(String username, String password) {
+	public Teacher login(String username, String password) {
 		String sql = "SELECT u.*, l.password FROM login l JOIN users u ON l.user_id = u.id WHERE l.username = ? AND l.deleted = 0 AND u.lock_status = 0 AND u.deleted = 0";
 
 		try {
@@ -52,7 +51,7 @@ public class LoginDAO extends DBConnect{
 				String hashedPassword = rs.getString("password");
 				BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
 				if (result.verified) {
-					return new Users(
+					return new Teacher(
 							rs.getString("id"),
 							rs.getString("name"),
 							rs.getString("phone"),
@@ -83,7 +82,7 @@ public class LoginDAO extends DBConnect{
 			ps.setString(1, userId);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				Users users = new UserDAO().findById(rs.getString("user_id"));
+				Teacher users = new UserDAO().findById(rs.getString("user_id"));
 				Login login = new Login();
 				login.setId(rs.getString("id"));
 				login.setUsername(rs.getString("username"));

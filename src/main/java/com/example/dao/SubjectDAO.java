@@ -2,7 +2,7 @@ package com.example.dao;
 
 import com.example.model.Cycle;
 import com.example.model.Subject;
-import com.example.model.Users;
+import com.example.model.Teacher;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class SubjectDAO extends DBConnect{
                 String cycleId = rs.getString("cycle_id");
                 Cycle cycle = cycleDAO.findById(cycleId);
                 String teacherId = rs.getString("user_id");
-                Users users = userDAO.findById(teacherId);
+                Teacher users = userDAO.findById(teacherId);
 
                 Subject subject = new Subject(
                         rs.getString("id"),
@@ -59,7 +59,7 @@ public class SubjectDAO extends DBConnect{
                 String cycleId = rs.getString("cycle_id");
                 Cycle cycle = cycleDAO.findById(cycleId);
                 String teacherId = rs.getString("user_id");
-                Users users = userDAO.findById(teacherId);
+                Teacher users = userDAO.findById(teacherId);
                 Subject subject = new Subject(
                         rs.getString("id"),
                         rs.getString("name"),
@@ -122,7 +122,7 @@ public class SubjectDAO extends DBConnect{
                 String cycleId = rs.getString("cycle_id");
                 Cycle cycle = cycleDAO.findById(cycleId);
                 String teacherId = rs.getString("user_id");
-                Users users = userDAO.findById(teacherId);
+                Teacher users = userDAO.findById(teacherId);
                 Subject subject = new Subject(
                         rs.getString("id"),
                         rs.getString("name"),
@@ -169,7 +169,6 @@ public class SubjectDAO extends DBConnect{
             } else {
                 ps.setNull(11, Types.VARCHAR);
             }
-
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

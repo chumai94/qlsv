@@ -1,7 +1,6 @@
 package com.example.dao;
 
-import com.example.model.Score;
-import com.example.model.Users;
+import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,7 +54,7 @@ public class ScoreDAO extends DBConnect{
             ps.setString(1,id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
-                Users userId = new UserDAO().findById(rs.getString("user_id"));
+                Teacher userId = new UserDAO().findById(rs.getString("user_id"));
                 Score score = new Score(rs.getString("id"),rs.getDate("created_at"),rs.getDate("lastmodified"), rs.getBoolean("deleted"),userId );
                 return score;
             }
@@ -131,7 +130,7 @@ public class ScoreDAO extends DBConnect{
                 String studentId = rs.getString("student_id");
                 String studentName = rs.getString("student_name");
                 double averageScore = rs.getDouble("average_score");
-                Users user = new Users();
+                Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
                 user.setId(studentId);
                 user.setName(studentName);
                 Score score = new Score();

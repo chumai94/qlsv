@@ -1,11 +1,7 @@
 package com.example.controller.admin;
 
-import com.example.dao.ClassDAO;
 import com.example.dao.ClassUserDAO;
-import com.example.dao.UserDAO;
-import com.example.model.Class;
-import com.example.model.Class_User;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,9 +20,9 @@ public class AddClassStudentController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String classId = req.getParameter("clazz");
         String[] studentIds = req.getParameterValues("students");
-        List<Users> students = new ArrayList<>();
+        List<Teacher> students = new ArrayList<>();
         for (String id : studentIds) {
-            Users u = new Users();
+            Teacher u = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
             u.setId(id);
             students.add(u);
         }

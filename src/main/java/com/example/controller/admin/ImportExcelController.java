@@ -1,11 +1,9 @@
 package com.example.controller.admin;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.example.dao.DBConnect;
 import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
-import com.example.model.Login;
-import com.example.model.Users;
+import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +16,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.UUID;
@@ -41,22 +38,15 @@ public class ImportExcelController extends HttpServlet {
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-                // Skip header row
                 if (row.getRowNum() == 0) continue;
-
                 try {
-                    // Create new user
-                    Users user = new Users();
+                    Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
                     user.setId(getCellStringValue(row.getCell(0)));
                     user.setName(getCellStringValue(row.getCell(1)));
                     user.setAddress(getCellStringValue(row.getCell(2)));
                     user.setPhone(getCellStringValue(row.getCell(3)));
                     user.setEmail(getCellStringValue(row.getCell(4)));
-
-                    // Default date if parsing fails - January 1, 2000
                     Date defaultDate = Date.valueOf("2000-01-01");
-
-                    // Try to parse dates, use default if parsing fails
                     Date dateOfBirth = getCellDateValue(row.getCell(5));
                     if (dateOfBirth == null) {
                         dateOfBirth = defaultDate;
@@ -75,27 +65,22 @@ public class ImportExcelController extends HttpServlet {
                     if (endTime == null) endTime = defaultDate;
                     user.setEndTime(endTime);
 
-                    // Set current timestamp for creation and modification
                     Date currentDate = new Date(System.currentTimeMillis());
                     user.setCreateAt(currentDate);
                     user.setLastmodified(currentDate);
 
-                    // Set default values
                     user.setDeleted(false);
                     user.setLockStatus(false);
 
-                    // Handle password creation
                     String hashedPassword = BCrypt.withDefaults().hashToString(12, dateOfBirth.toString().toCharArray());
 
-                    // Create Login object
                     Login login = new Login();
                     login.setId(UUID.randomUUID().toString().substring(0, 16));
-                    login.setUsername(getCellStringValue(row.getCell(0))); // Using ID as username
+                    login.setUsername(getCellStringValue(row.getCell(0)));
                     login.setPassword(hashedPassword);
                     login.setDeleted(false);
                     login.setUsers(user);
 
-                    // Add user and login to the database
                     userDAO.addUser(user);
                     new LoginDAO().addLogin(login);
                     recordsAdded++;
@@ -105,11 +90,9 @@ public class ImportExcelController extends HttpServlet {
                     System.err.println(error);
                     errors.append(error).append("\n");
                     e.printStackTrace();
-                    // Continue with next row instead of failing the entire import
                 }
             }
 
-            // Set message based on results
             if (recordsAdded > 0) {
                 String message = "Thêm mới " + recordsAdded + " người dùng thành công!";
                 if (errors.length() > 0) {

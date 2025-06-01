@@ -3,7 +3,6 @@ package com.example.controller.teacher;
 import com.example.dao.ScoreDAO;
 import com.example.dao.ScoreSubjectDAO;
 import com.example.dao.SubjectDAO;
-import com.example.model.Score;
 import com.example.model.ScoreSubject;
 import com.example.model.Subject;
 import jakarta.servlet.ServletException;
@@ -13,8 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 @WebServlet("/teacher/update-score")
 public class UpdateScoreStudentController extends HttpServlet {
@@ -44,10 +41,8 @@ public class UpdateScoreStudentController extends HttpServlet {
             double laborious = Double.parseDouble(scoreLaborious);
             double check = Double.parseDouble(scoreCheck);
             double sFinal = Double.parseDouble(scoreFinal);
-            Score score = new Score();
-            score = new ScoreDAO().findById(scoreId);
-            Subject subject = new Subject();
-            subject = new SubjectDAO().findById(subjectId);
+            Score score = new ScoreDAO().findById(scoreId);
+            Subject subject  = new SubjectDAO().findById(subjectId);
             ScoreSubject ss = new ScoreSubject();
             ss.setId(id);
             ss.setScoreLaborious(laborious);

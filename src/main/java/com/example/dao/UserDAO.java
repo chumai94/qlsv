@@ -1,6 +1,6 @@
 package com.example.dao;
 
-import com.example.model.Users;
+import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,10 +11,10 @@ import java.util.List;
 
 
 public class UserDAO extends DBConnect{
-    public List<Users> searchUsers(String keyword, int offset, int limit) {
-        List<Users> usersList = new ArrayList<>();
-        String sql = "SELECT * FROM users " +
-                "WHERE type='giaovien' AND deleted = 0 AND name LIKE ? " +
+    public List<Teacher> searchUsers(String keyword, int offset, int limit) {
+        List<Teacher> usersList = new ArrayList<>();
+        String sql = "SELECT * FROM TEACHER " +
+                "WHERE TYPE='giaovien' AND DELETED = 0 AND NAME LIKE ? " +
                 "LIMIT ? OFFSET ?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -23,15 +23,14 @@ public class UserDAO extends DBConnect{
             pst.setInt(3, offset);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Users user = new Users(
-                        rs.getString("id"),
-                        rs.getString("name"),
-                        rs.getString("phone"),
-                        rs.getString("email"),
+                Teacher user = new Teacher(
+                        rs.getString("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("PHONE"),
+                        rs.getString("MAIL"),
                         rs.getString("address"),
                         rs.getDate("date_of_birth"),
                         rs.getString("type"),
-                        rs.getString("type_position"),
                         rs.getDate("starttime"),
                         rs.getDate("endtime"),
                         rs.getDate("create_at"),
@@ -60,8 +59,8 @@ public class UserDAO extends DBConnect{
         }
         return 0;
     }
-    public List<Users> searchStudent(String keyword, int offset, int limit) {
-        List<Users> usersList = new ArrayList<>();
+    public List<Teacher> searchStudent(String keyword, int offset, int limit) {
+        List<Teacher> usersList = new ArrayList<>();
         String sql = "SELECT * FROM users " +
                 "WHERE type='sinhvien' AND deleted = 0 AND name LIKE ? " +
                 "LIMIT ? OFFSET ?";
@@ -72,7 +71,7 @@ public class UserDAO extends DBConnect{
             pst.setInt(3, offset);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Users user = new Users(
+                Teacher user = new Teacher(
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("phone"),
@@ -109,14 +108,14 @@ public class UserDAO extends DBConnect{
         }
         return 0;
     }
-    public List<Users> getAll(){
-        List<Users> usersList = new ArrayList<>();
+    public List<Teacher> getAll(){
+        List<Teacher> usersList = new ArrayList<>();
         String sql = "select * from users where type='giaovien' and deleted = 0";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()){
-                Users users = new Users(rs.getString("id"),
+                Teacher users = new Teacher(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("phone"),
                         rs.getString("email"),
@@ -137,14 +136,14 @@ public class UserDAO extends DBConnect{
         }
         return usersList;
     }
-    public List<Users> getAllStudent(){
-        List<Users> usersList = new ArrayList<>();
+    public List<Teacher> getAllStudent(){
+        List<Teacher> usersList = new ArrayList<>();
         String sql = "select * from users where type='sinhvien' and deleted = 0";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()){
-                Users users = new Users(rs.getString("id"),
+                Teacher users = new Teacher(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("phone"),
                         rs.getString("email"),
@@ -165,14 +164,14 @@ public class UserDAO extends DBConnect{
         }
         return usersList;
     }
-    public Users findById(String id){
+    public Teacher findById(String id){
         String sql = "select * from users where id = ?";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1,id);
             ResultSet rs = pst.executeQuery();
             while (rs.next()){
-                Users users = new Users(rs.getString("id"),
+                Teacher users = new Teacher(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("phone"),
                         rs.getString("email"),
@@ -193,7 +192,7 @@ public class UserDAO extends DBConnect{
         }
         return null;
     }
-	public void addUser(Users user) {
+	public void addUser(Teacher user) {
         String sql = "INSERT INTO users (id, name, phone, email, address, date_of_birth, type, type_position, starttime, endtime, create_at, lastmodified, deleted, lock_status) "
                      + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -219,7 +218,7 @@ public class UserDAO extends DBConnect{
             e.printStackTrace();
         }
     }
-    public void updateUser(Users user) {
+    public void updateUser(Teacher user) {
         String sql = "UPDATE users SET name = ?, phone = ?, email = ?, address = ?, date_of_birth = ?, type = ?, type_position = ?, "
                      + "starttime = ?, endtime = ?, lastmodified = ?, deleted = ?, lock_status = ?, position_id = ? WHERE id = ?";
 
@@ -281,8 +280,8 @@ public class UserDAO extends DBConnect{
             e.printStackTrace();
         }
     }
-    public List<Users> getAllStudentNotInClass(String classId) {
-        List<Users> usersList = new ArrayList<>();
+    public List<Teacher> getAllStudentNotInClass(String classId) {
+        List<Teacher> usersList = new ArrayList<>();
         String sql = "SELECT u.* " +
                 "FROM users u " +
                 "WHERE u.type = 'sinhvien' " +
@@ -294,7 +293,7 @@ public class UserDAO extends DBConnect{
             pst.setString(1, classId);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Users users = new Users(rs.getString("id"),
+                Teacher users = new Teacher(rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("phone"),
                         rs.getString("email"),
