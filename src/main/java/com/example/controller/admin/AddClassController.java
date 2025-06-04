@@ -39,7 +39,7 @@ public class AddClassController extends HttpServlet {
         aClass.setLastModified(new Date(System.currentTimeMillis()));
         aClass.setStatus(false);
         if (teacherId != null && !teacherId.trim().isEmpty()){
-            Teacher teacher = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+            Teacher teacher = new Teacher();
             teacher.setId(teacherId);
             aClass.setTeacher(teacher);
         }else {
@@ -55,5 +55,5 @@ public class AddClassController extends HttpServlet {
             req.setAttribute("error","Thêm mới không thành công hãy thêm lại");
             req.getRequestDispatcher("/view/admin/add-lophoc.jsp").forward(req,resp);
         }
-    }
+  }
 }

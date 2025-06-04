@@ -16,15 +16,15 @@ public class DeleteUserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         UserDAO userDAO = new UserDAO();
-        Teacher users = userDAO.findById(id);
-        if (users.getType().equals("giaovien")){
-            userDAO.deleteUser(id);
-            req.getSession().setAttribute("successMessage", "Xóa người dùng thành công!");
-            resp.sendRedirect("/qlsv/list-user");
-        }else{
-            userDAO.deleteUser(id);
-            req.getSession().setAttribute("successMessage", "Xóa người dùng thành công!");
-            resp.sendRedirect("/qlsv/admin/sinhvien");
-        }
+//        Teacher users = userDAO.findById(id);
+//        if (users.getType().equals("giaovien")){
+//            userDAO.deleteUser(id);
+//            req.getSession().setAttribute("successMessage", "Xóa người dùng thành công!");
+//            resp.sendRedirect("/qlsv/list-user");
+//        }else{
+//            userDAO.deleteUser(id);
+//            req.getSession().setAttribute("successMessage", "Xóa người dùng thành công!");
+//            resp.sendRedirect("/qlsv/admin/sinhvien");
+//        }
     }
 }

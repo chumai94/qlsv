@@ -8,7 +8,7 @@ public class Teacher {
     private String phone;
     private String email;
     private Date dateOfBirth;
-    private Boolean type;
+    private int type;
     private String password;
     private Date createAt;
     private Date lastmodified;
@@ -55,11 +55,11 @@ public class Teacher {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Boolean getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Boolean type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -103,7 +103,7 @@ public class Teacher {
         this.status = status;
     }
 
-    public Teacher(String id, String name, String phone, String email, Date dateOfBirth, Boolean type, String password, Date createAt, Date lastmodified, boolean deleted, boolean status) {
+    public Teacher(String id, String name, String phone, String email, Date dateOfBirth, int type, String password, Date createAt, Date lastmodified, boolean deleted, boolean status) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -117,6 +117,6 @@ public class Teacher {
         this.status = status;
     }
 
-    public Teacher(String id, String name, String phone, String email, String address, Date dateOfBirth, String type, Date starttime, Date endtime, Date createAt, Date lastmodified, boolean deleted, boolean lockStatus) {
+    public Teacher() {
     }
 }

@@ -4,6 +4,7 @@ import com.example.dao.ScoreDAO;
 import com.example.dao.ScoreSubjectDAO;
 import com.example.dao.SubjectDAO;
 import com.example.model.ScoreSubject;
+import com.example.model.Student;
 import com.example.model.Subject;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
@@ -23,17 +24,8 @@ public class AddScoreController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String studentId = req.getParameter("studentId");
-        Teacher users = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+        Student users = new Student();
         users.setId(studentId);
-        Score score = new Score();
-        score.setId(UUID.randomUUID().toString().substring(0,16));
-        score.setCreateAt(new Date(System.currentTimeMillis()));
-        score.setLastmodified(new Date(System.currentTimeMillis()));
-        score.setDeleted(false);
-        score.setUsers(users);
-        ScoreDAO scoreDAO = new ScoreDAO();
-        scoreDAO.add(score);
-
         String scoreLaborious = req.getParameter("chuyencan");
         String scoreCheck = req.getParameter("kiemtra");
         String scoreFinal = req.getParameter("thi");
@@ -48,11 +40,11 @@ public class AddScoreController extends HttpServlet {
             subject.setId(subjectId);
             ScoreSubject ss = new ScoreSubject();
             ss.setId(UUID.randomUUID().toString().substring(0,16));
-            ss.setScoreLaborious(laborious);
-            ss.setScoreCheck(check);
+//            ss.setScoreLaborious(laborious);
+//            ss.setScoreCheck(check);
             ss.setScoreFinal(sFinal);
             ss.setScore_average((((laborious+check)/2)*subject.getProcessCoefficient())+(sFinal*subject.getExamCoefficient()));
-            ss.setScore(score);
+//            ss.setScore(score);
             ss.setSubject(subject);
             ScoreSubjectDAO subjectDAO = new ScoreSubjectDAO();
             subjectDAO.addScoreSubject(ss);

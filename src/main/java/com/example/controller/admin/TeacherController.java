@@ -67,33 +67,21 @@ public class TeacherController extends HttpServlet {
             return;
         }
         String hashedPassword = BCrypt.withDefaults().hashToString(12, dateOfBirth.toCharArray());
-        Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+        Teacher user = new Teacher();
         user.setId(id);
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
-        user.setAddress(address);
         user.setDateOfBirth(Date.valueOf(dateOfBirth));
-        user.setStartTime(Date.valueOf(startTime));
-        user.setEndTime(Date.valueOf(endTime));
-        user.setType(chucVu);
-        user.setTypePosition(loaiChucVu);
+        user.setType(1);
         user.setCreateAt(new java.sql.Date(System.currentTimeMillis()));
         user.setLastmodified(new java.sql.Date(System.currentTimeMillis()));
         user.setDeleted(false);
-        user.setLockStatus(false);
-
-        Login login = new Login();
-        login.setId(UUID.randomUUID().toString());
-        login.setUsername(id);
-        login.setPassword(hashedPassword);
-        login.setDeleted(false);
-        login.setUsers(user);
-        LoginDAO loginDAO = new LoginDAO();
+        user.setStatus(false);
+        user.setPassword(hashedPassword);
 
         try {
             userDAO.addUser(user);
-            loginDAO.addLogin(login);
             req.getSession().setAttribute("successMessage", "Thêm mới người dùng thành công!");
             resp.sendRedirect(req.getContextPath() + "/admin/list-user");
         } catch (Exception e) {

@@ -3,6 +3,7 @@ package com.example.controller.admin;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
+import com.example.model.Student;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -40,7 +41,7 @@ public class ImportExcelController extends HttpServlet {
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) continue;
                 try {
-                    Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+                    Student user = new Student();
                     user.setId(getCellStringValue(row.getCell(0)));
                     user.setName(getCellStringValue(row.getCell(1)));
                     user.setAddress(getCellStringValue(row.getCell(2)));
@@ -54,35 +55,25 @@ public class ImportExcelController extends HttpServlet {
                     }
                     user.setDateOfBirth(dateOfBirth);
 
-                    user.setType(getCellStringValue(row.getCell(6)));
-                    user.setTypePosition(getCellStringValue(row.getCell(7)));
-
-                    Date startTime = getCellDateValue(row.getCell(8));
+                    Date startTime = getCellDateValue(row.getCell(6));
                     if (startTime == null) startTime = defaultDate;
-                    user.setStartTime(startTime);
+                    user.setStartYear(startTime);
 
-                    Date endTime = getCellDateValue(row.getCell(9));
+                    Date endTime = getCellDateValue(row.getCell(7));
                     if (endTime == null) endTime = defaultDate;
-                    user.setEndTime(endTime);
+                    user.setEndYear(endTime);
 
                     Date currentDate = new Date(System.currentTimeMillis());
                     user.setCreateAt(currentDate);
                     user.setLastmodified(currentDate);
 
                     user.setDeleted(false);
-                    user.setLockStatus(false);
+                    user.setStatus(false);
 
                     String hashedPassword = BCrypt.withDefaults().hashToString(12, dateOfBirth.toString().toCharArray());
+                    user.setPassword(hashedPassword);
 
-                    Login login = new Login();
-                    login.setId(UUID.randomUUID().toString().substring(0, 16));
-                    login.setUsername(getCellStringValue(row.getCell(0)));
-                    login.setPassword(hashedPassword);
-                    login.setDeleted(false);
-                    login.setUsers(user);
-
-                    userDAO.addUser(user);
-                    new LoginDAO().addLogin(login);
+                    userDAO.addStudent(user);
                     recordsAdded++;
 
                 } catch (Exception e) {

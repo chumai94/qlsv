@@ -17,15 +17,15 @@ public class UnlockUserController extends HttpServlet {
         String id = req.getParameter("id");
         UserDAO userDAO = new UserDAO();
         Teacher users = userDAO.findById(id);
-        if (users.getType().equals("giaovien")){
-            userDAO.unLockUser(id);
-            req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");
-            resp.sendRedirect("/qlsv/admin/list-user");
-        }else{
-            userDAO.unLockUser(id);
-            req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");
-            resp.sendRedirect("/qlsv/admin/sinhvien");
-        }
+//        if (users.getType().equals("giaovien")){
+//            userDAO.unLockUser(id);
+//            req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");
+//            resp.sendRedirect("/qlsv/admin/list-user");
+//        }else{
+//            userDAO.unLockUser(id);
+//            req.getSession().setAttribute("successMessage", "Mở khóa người dùng thành công!");
+//            resp.sendRedirect("/qlsv/admin/sinhvien");
+//        }
 
     }
 }

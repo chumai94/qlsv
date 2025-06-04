@@ -54,7 +54,7 @@ public class AddSubjectController extends HttpServlet {
         subject.setDeleted(false);
         subject.setStatus(false);
         if (teacherId != null && !teacherId.trim().isEmpty()){
-            Teacher teacher = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+            Teacher teacher = new Teacher();
             teacher.setId(teacherId);
             subject.setTeacher(teacher);
         }else {

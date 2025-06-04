@@ -1,6 +1,7 @@
 package com.example.controller.admin;
 
 import com.example.dao.UserDAO;
+import com.example.model.Student;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -26,7 +27,7 @@ public class ListStudentController extends HttpServlet {
         }
 
         UserDAO userDAO = new UserDAO();
-        List<Teacher> usersList = userDAO.searchStudent(keyword, (page - 1) * recordsPerPage, recordsPerPage);
+        List<Student> usersList = userDAO.searchStudent(keyword, (page - 1) * recordsPerPage, recordsPerPage);
         int totalRecords = userDAO.countStudent(keyword);
         int totalPages = (int) Math.ceil(totalRecords * 1.0 / recordsPerPage);
 

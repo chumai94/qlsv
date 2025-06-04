@@ -18,14 +18,14 @@ public class UpdateUserController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
         UserDAO userDAO = new UserDAO();
-        Teacher users = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+        Teacher users = new Teacher();
         users = userDAO.findById(id);
-        if (users.getType().equals("giaovien")){
-            req.setAttribute("activePage", "giaovien");
-        }else {
-            req.setAttribute("activePage", "sinhvien");
-        }
-        req.setAttribute("users", users);
+//        if (users.getType().equals("giaovien")){
+//            req.setAttribute("activePage", "giaovien");
+//        }else {
+//            req.setAttribute("activePage", "sinhvien");
+//        }
+//        req.setAttribute("users", users);
         req.getRequestDispatcher("/view/admin/update-user.jsp").forward(req, resp);
 
     }
@@ -45,20 +45,19 @@ public class UpdateUserController extends HttpServlet {
 
 
         String hashedPassword = BCrypt.withDefaults().hashToString(12,dateOfBirth.toCharArray());
-        Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+        Teacher user = new Teacher();
         user.setId(id);
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
-        user.setAddress(address);
+
         user.setDateOfBirth(Date.valueOf(dateOfBirth));
-        user.setStartTime(Date.valueOf(startTime));
-        user.setEndTime(Date.valueOf(endTime));
-        user.setType(chucVu);
-        user.setTypePosition(loaiChucVu);
+
+        user.setType(0);
+
         user.setLastmodified(new java.sql.Date(System.currentTimeMillis()));
         user.setDeleted(false);
-        user.setLockStatus(false);
+
 
 
 
@@ -68,13 +67,13 @@ public class UpdateUserController extends HttpServlet {
         try {
             userDAO.updateUser(user);
 
-            if (user.getType().equals("giaovien")){
-                req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
-                resp.sendRedirect("/qlsv/admin/list-user");
-            }else {
-                req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
-                resp.sendRedirect("/qlsv/admin/sinhvien");
-            }
+//            if (user.getType().equals("giaovien")){
+//                req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
+//                resp.sendRedirect("/qlsv/admin/list-user");
+//            }else {
+//                req.getSession().setAttribute("successMessage", "Sửa người dùng thành công!");
+//                resp.sendRedirect("/qlsv/admin/sinhvien");
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -60,4 +60,9 @@ public class Class_Student {
 
     public Class_Student() {
     }
+
+    public Class_Student(Student student, Class aClass) {
+        this.student = student;
+        this.aClass = aClass;
+    }
 }

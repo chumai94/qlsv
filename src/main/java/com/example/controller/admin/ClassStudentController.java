@@ -5,6 +5,7 @@ import com.example.dao.ClassUserDAO;
 import com.example.dao.UserDAO;
 import com.example.model.Class;
 import com.example.model.Class_Student;
+import com.example.model.Student;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -25,7 +26,7 @@ public class ClassStudentController extends HttpServlet {
             searchTerm = "";
         }
         List<Class_Student> classUsers = new ClassUserDAO().getAllStudentByClassId(classId, searchTerm);
-        List<Teacher> studentsNotInClass = new UserDAO().getAllStudentNotInClass(classId);
+        List<Student> studentsNotInClass = new UserDAO().getAllStudentNotInClass(classId);
         Class aClass = new ClassDAO().getById(classId);
         req.setAttribute("clazz", aClass);
         req.setAttribute("user", studentsNotInClass);

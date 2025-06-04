@@ -2,6 +2,7 @@ package com.example.dao;
 
 import com.example.model.Class;
 import com.example.model.Class_Student;
+import com.example.model.Student;
 import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
@@ -14,10 +15,10 @@ public class ClassUserDAO extends DBConnect{
     public List<Class_Student> getStudentsByTeacher(String teacherId, String classId) {
         List<Class_Student> list = new ArrayList<>();
         String sql = "SELECT c.*, u.* " +
-                "FROM class c " +
-                "JOIN class_user cu ON c.id = cu.class_id " +
-                "JOIN users u ON cu.student_id = u.id " +
-                "WHERE c.teacher_id = ? AND c.id = ? AND c.deleted = 0 AND u.deleted = 0";
+                "FROM CLASS c " +
+                "JOIN CLASS_STUDENT cu ON c.ID = cu.CLASS_ID " +
+                "JOIN STUDENT u ON cu.STUDENT_ID = u.ID " +
+                "WHERE c.TEACHER_ID = ? AND c.ID = ? AND c.DELETED = 0 AND u.DELETED = 0";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacherId);
@@ -25,31 +26,30 @@ public class ClassUserDAO extends DBConnect{
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Teacher student = new Teacher(
-                        rs.getString("u.id"),
-                        rs.getString("u.name"),
-                        rs.getString("u.phone"),
-                        rs.getString("u.email"),
-                        rs.getString("u.address"),
-                        rs.getDate("u.date_of_birth"),
-                        rs.getString("u.type"),
-                        rs.getString("u.type_position"),
-                        rs.getDate("u.starttime"),
-                        rs.getDate("u.endtime"),
-                        rs.getDate("u.create_at"),
-                        rs.getDate("u.lastmodified"),
-                        rs.getBoolean("u.deleted"),
-                        rs.getBoolean("u.lock_status")
+                Student student = new Student(
+                        rs.getString("u.ID"),
+                        rs.getString("u.NAME"),
+                        rs.getString("u.PHONE"),
+                        rs.getString("u.MAIL"),
+                        rs.getDate("u.DATE_OF_BIRTH"),
+                        rs.getString("u.ADDRESS"),
+                        null,
+                        rs.getDate("u.START_YEAR"),
+                        rs.getDate("u.END_YEAR"),
+                        rs.getDate("u.CREATE_AT"),
+                        rs.getDate("u.LASTMODIFIED"),
+                        rs.getBoolean("u.DELETED"),
+                        rs.getBoolean("u.STATUS")
                 );
 
                 Class clazz = new Class(
-                        rs.getString("c.id"),
-                        rs.getString("c.name"),
-                        rs.getString("c.description"),
-                        rs.getDate("c.created_at"),
-                        rs.getDate("c.lastmodified"),
-                        rs.getBoolean("c.deleted"),
-                        rs.getBoolean("c.status"),
+                        rs.getString("c.ID"),
+                        rs.getString("c.NAME"),
+                        rs.getString("c.DESCRIPTION"),
+                        rs.getDate("c.CREATE_AT"),
+                        rs.getDate("c.LASTMODIFIED"),
+                        rs.getBoolean("c.DELETED"),
+                        rs.getBoolean("c.STATUS"),
                         null
                 );
 
@@ -65,10 +65,10 @@ public class ClassUserDAO extends DBConnect{
     }
     public List<Class_Student> getAllStudentByClassId(String classId, String searchTerm) {
         List<Class_Student> classUsers = new ArrayList<>();
-        String sql = "SELECT * FROM class_user cu " +
-                "JOIN users u ON cu.student_id = u.id " +
-                "WHERE cu.class_id = ? " +
-                "AND (u.id LIKE ? OR u.name LIKE ?)";
+        String sql = "SELECT * FROM CLASS_STUDENT cu " +
+                "JOIN STUDENT u ON cu.STUDENT_ID = u.ID " +
+                "WHERE cu.CLASS_ID = ? " +
+                "AND (u.ID LIKE ? OR u.NAME LIKE ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, classId);
@@ -76,8 +76,8 @@ public class ClassUserDAO extends DBConnect{
             ps.setString(3, "%" + searchTerm + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Teacher student = new UserDAO().findById(rs.getString("student_id"));
-                Class clazz = new ClassDAO().getById(rs.getString("class_id"));
+                Student student = new UserDAO().findStudentById(rs.getString("STUDENT_ID"));
+                Class clazz = new ClassDAO().getById(rs.getString("CLASS_ID"));
                 Class_Student classUser = new Class_Student(student, clazz);
                 classUsers.add(classUser);
             }
@@ -86,13 +86,17 @@ public class ClassUserDAO extends DBConnect{
         }
         return classUsers;
     }
-    public void addStudentsToClass(String classId, List<Teacher> students) {
-        String sql = "INSERT INTO class_user (class_id, student_id) VALUES (?, ?)";
+    public void addStudentsToClass(String classId, List<Student> students) {
+        String sql = "INSERT INTO CLASS_STUDENT (ID,CLASS_ID, STUDENT_ID,CREATE_AT,LASTMODIFIED) VALUES (?, ?,?,?,?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            for (Teacher student : students) {
-                ps.setString(1, classId);
-                ps.setString(2, student.getId());
+            for (Student student : students) {
+                Class_Student classStudent = new Class_Student();
+                ps.setString(1,classStudent.getId());
+                ps.setString(2, classId);
+                ps.setString(3, student.getId());
+                ps.setDate(4,classStudent.getCreateAt());
+                ps.setDate(5,classStudent.getLassmodified());
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -101,7 +105,7 @@ public class ClassUserDAO extends DBConnect{
         }
     }
     public void delete(String classId, String studentId) {
-        String sql = "DELETE FROM class_user WHERE class_id = ? AND student_id = ?";
+        String sql = "DELETE FROM CLASS_STUDENT WHERE CLASS_ID = ? AND STUDENT_ID = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, classId);

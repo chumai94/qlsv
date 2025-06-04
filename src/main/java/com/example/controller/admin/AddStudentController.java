@@ -3,6 +3,7 @@ package com.example.controller.admin;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.example.dao.LoginDAO;
 import com.example.dao.UserDAO;
+import com.example.model.Student;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -37,34 +38,25 @@ public class AddStudentController extends HttpServlet {
 
 
         String hashedPassword = BCrypt.withDefaults().hashToString(12,dateOfBirth.toCharArray());
-        Teacher user = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+        Student user = new Student();
         user.setId(id);
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
         user.setAddress(address);
         user.setDateOfBirth(Date.valueOf(dateOfBirth));
-        user.setStartTime(Date.valueOf(startTime));
-        user.setEndTime(Date.valueOf(endTime));
-        user.setType(chucVu);
-        user.setTypePosition(loaiChucVu);
+        user.setStartYear(Date.valueOf(startTime));
+        user.setEndYear(Date.valueOf(endTime));
         user.setCreateAt(new java.sql.Date(System.currentTimeMillis()));
         user.setLastmodified(new java.sql.Date(System.currentTimeMillis()));
         user.setDeleted(false);
-        user.setLockStatus(false);
+        user.setStatus(false);
+        user.setPassword(hashedPassword);
 
-        Login login = new Login();
-        login.setId(UUID.randomUUID().toString().substring(0,16));
-        login.setUsername(id);
-        login.setPassword(hashedPassword);
-        login.setDeleted(false);
-        login.setUsers(user);
         UserDAO userDAO = new UserDAO();
-        LoginDAO loginDAO = new LoginDAO();
-
         try {
-            userDAO.addUser(user);
-            loginDAO.addLogin(login);
+            userDAO.addStudent(user);
+
             req.getSession().setAttribute("successMessage", "Thêm mới người dùng thành công!");
             resp.sendRedirect("/qlsv/admin/sinhvien");
         } catch (Exception e) {

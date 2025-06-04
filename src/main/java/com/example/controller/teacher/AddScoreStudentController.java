@@ -22,17 +22,17 @@ import java.util.UUID;
 public class AddScoreStudentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String studentId = req.getParameter("studentId");
-        Teacher users = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
-        users.setId(studentId);
-        Score score = new Score();
-        score.setId(UUID.randomUUID().toString().substring(0,16));
-        score.setCreateAt(new Date(System.currentTimeMillis()));
-        score.setLastmodified(new Date(System.currentTimeMillis()));
-        score.setDeleted(false);
-        score.setUsers(users);
-        ScoreDAO scoreDAO = new ScoreDAO();
-        scoreDAO.add(score);
+//        String studentId = req.getParameter("studentId");
+//        Teacher users = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+//        users.setId(studentId);
+//        Score score = new Score();
+//        score.setId(UUID.randomUUID().toString().substring(0,16));
+//        score.setCreateAt(new Date(System.currentTimeMillis()));
+//        score.setLastmodified(new Date(System.currentTimeMillis()));
+//        score.setDeleted(false);
+//        score.setUsers(users);
+//        ScoreDAO scoreDAO = new ScoreDAO();
+//        scoreDAO.add(score);
 
         String scoreLaborious = req.getParameter("chuyencan");
         String scoreCheck = req.getParameter("kiemtra");
@@ -47,16 +47,16 @@ public class AddScoreStudentController extends HttpServlet {
             subject.setId(subjectId);
             ScoreSubject ss = new ScoreSubject();
             ss.setId(UUID.randomUUID().toString().substring(0,16));
-            ss.setScoreLaborious(laborious);
-            ss.setScoreCheck(check);
-            ss.setScoreFinal(sFinal);
-            ss.setScore_average((((laborious+check)/2)*subject.getProcessCoefficient())+(sFinal*subject.getExamCoefficient()));
-            ss.setScore(score);
-            ss.setSubject(subject);
-            ScoreSubjectDAO subjectDAO = new ScoreSubjectDAO();
-            subjectDAO.addScoreSubject(ss);
-            req.getSession().setAttribute("successMessage", "Thêm mới điểm thành công!");
-            resp.sendRedirect("/qlsv/teacher/diem-sinhvien?studentId="+studentId);
+//            ss.setScoreLaborious(laborious);
+//            ss.setScoreCheck(check);
+//            ss.setScoreFinal(sFinal);
+//            ss.setScore_average((((laborious+check)/2)*subject.getProcessCoefficient())+(sFinal*subject.getExamCoefficient()));
+//            ss.setScore(score);
+//            ss.setSubject(subject);
+//            ScoreSubjectDAO subjectDAO = new ScoreSubjectDAO();
+//            subjectDAO.addScoreSubject(ss);
+//            req.getSession().setAttribute("successMessage", "Thêm mới điểm thành công!");
+//            resp.sendRedirect("/qlsv/teacher/diem-sinhvien?studentId="+studentId);
         }catch (Exception e){
             e.printStackTrace();
             String errorMessage = "Đã xảy ra lỗi khi thêm điểm mời thêm lại!";

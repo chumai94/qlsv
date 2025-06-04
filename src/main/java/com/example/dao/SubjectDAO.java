@@ -13,7 +13,7 @@ public class SubjectDAO extends DBConnect{
     UserDAO userDAO = new UserDAO();
     public List<Subject> searchByName(String keyword) {
         List<Subject> subjectList = new ArrayList<>();
-        String sql = "SELECT * FROM subject WHERE deleted = 0 AND name LIKE ?";
+        String sql = "SELECT * FROM SUBJECT WHERE DELETED = 0 AND NAME LIKE ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -21,21 +21,21 @@ public class SubjectDAO extends DBConnect{
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String cycleId = rs.getString("cycle_id");
+                String cycleId = rs.getString("CYCLE_ID");
                 Cycle cycle = cycleDAO.findById(cycleId);
-                String teacherId = rs.getString("user_id");
+                String teacherId = rs.getString("TEACHER_ID");
                 Teacher users = userDAO.findById(teacherId);
 
                 Subject subject = new Subject(
-                        rs.getString("id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getDouble("process_coefficient"),
-                        rs.getDouble("exam_coefficient"),
-                        rs.getDate("create_at"),
-                        rs.getDate("lastmodified"),
-                        rs.getBoolean("deleted"),
-                        rs.getBoolean("status"),
+                        rs.getString("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"),
+                        rs.getDouble("PROCESS_COEFFICIENT"),
+                        rs.getDouble("EXAM_COEFFICIENT"),
+                        rs.getDate("CREATE_AT"),
+                        rs.getDate("LASTMODIFIED"),
+                        rs.getBoolean("DELETED"),
+                        rs.getBoolean("STATUS"),
                         cycle,
                         users
                 );
@@ -49,28 +49,30 @@ public class SubjectDAO extends DBConnect{
     }
     public List<Subject> getAll() {
         List<Subject> subjectList = new ArrayList<>();
-        String sql = "SELECT * FROM subject where deleted = 0";
+        String sql = "SELECT * FROM SUBJECT where DELETED = 0";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String cycleId = rs.getString("cycle_id");
+                String cycleId = rs.getString("CYCLE_ID");
                 Cycle cycle = cycleDAO.findById(cycleId);
-                String teacherId = rs.getString("user_id");
+                String teacherId = rs.getString("TEACHER_ID");
                 Teacher users = userDAO.findById(teacherId);
+
                 Subject subject = new Subject(
-                        rs.getString("id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getDouble("process_coefficient"),
-                        rs.getDouble("exam_coefficient"),
-                        rs.getDate("create_at"),
-                        rs.getDate("lastmodified"),
-                        rs.getBoolean("deleted"),
-                        rs.getBoolean("status"),
-                        cycle,users
+                        rs.getString("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"),
+                        rs.getDouble("PROCESS_COEFFICIENT"),
+                        rs.getDouble("EXAM_COEFFICIENT"),
+                        rs.getDate("CREATE_AT"),
+                        rs.getDate("LASTMODIFIED"),
+                        rs.getBoolean("DELETED"),
+                        rs.getBoolean("STATUS"),
+                        cycle,
+                        users
                 );
                 subjectList.add(subject);
             }
@@ -83,7 +85,7 @@ public class SubjectDAO extends DBConnect{
     }
     public List<Subject> getSubjectsByTeacherId(String teacherId) {
         List<Subject> subjectList = new ArrayList<>();
-        String sql = "SELECT * FROM subject WHERE user_id = ? AND deleted = 0";
+        String sql = "SELECT * FROM SUBJECT WHERE TEACHER_ID = ? AND DELETED = 0";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -91,16 +93,16 @@ public class SubjectDAO extends DBConnect{
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String cycleId = rs.getString("cycle_id");
+                String cycleId = rs.getString("CYCLE_ID");
                 Cycle cycle = cycleDAO.findById(cycleId);
                 Subject subject = new Subject(
-                        rs.getString("id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getDate("create_at"),
-                        rs.getDate("lastmodified"),
-                        rs.getBoolean("deleted"),
-                        rs.getBoolean("status"),
+                        rs.getString("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"),
+                        rs.getDate("CREATE_AT"),
+                        rs.getDate("LASTMODIFIED"),
+                        rs.getBoolean("DELETED"),
+                        rs.getBoolean("STATUS"),
                         cycle
                 );
                 subjectList.add(subject);
@@ -113,29 +115,29 @@ public class SubjectDAO extends DBConnect{
         return subjectList;
     }
     public Subject findById(String id) {
-        String sql = "SELECT * FROM subject WHERE id = ?";
+        String sql = "SELECT * FROM SUBJECT WHERE ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                String cycleId = rs.getString("cycle_id");
+                String cycleId = rs.getString("CYCLE_ID");
                 Cycle cycle = cycleDAO.findById(cycleId);
-                String teacherId = rs.getString("user_id");
+                String teacherId = rs.getString("TEACHER_ID");
                 Teacher users = userDAO.findById(teacherId);
+
                 Subject subject = new Subject(
-                        rs.getString("id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getDouble("process_coefficient"),
-                        rs.getDouble("exam_coefficient"),
-                        rs.getDate("create_at"),
-                        rs.getDate("lastmodified"),
-                        rs.getBoolean("deleted"),
-                        rs.getBoolean("status"),
-                        cycle,users,
-                        rs.getDate("start_date"),
-                        rs.getDate("end_date")
+                        rs.getString("ID"),
+                        rs.getString("NAME"),
+                        rs.getString("DESCRIPTION"),
+                        rs.getDouble("PROCESS_COEFFICIENT"),
+                        rs.getDouble("EXAM_COEFFICIENT"),
+                        rs.getDate("CREATE_AT"),
+                        rs.getDate("LASTMODIFIED"),
+                        rs.getBoolean("DELETED"),
+                        rs.getBoolean("STATUS"),
+                        cycle,
+                        users
                 );
                 return subject;
             }
@@ -146,7 +148,7 @@ public class SubjectDAO extends DBConnect{
     }
 
     public void add(Subject subject) {
-        String sql = "INSERT INTO subject (id, name, description,process_coefficient,exam_coefficient, create_at, lastmodified, deleted, status, cycle_id,user_id) "
+        String sql = "INSERT INTO SUBJECT (ID, NAME, DESCRIPTION,PROCESS_COEFFICIENT,EXAM_COEFFICIENT, CREATE_AT, LASTMODIFIED, DELETED, STATUS, CYCLE_ID,TEACHER_ID) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -176,7 +178,7 @@ public class SubjectDAO extends DBConnect{
     }
 
     public void update(Subject subject) {
-        String sql = "UPDATE subject SET name = ?, process_coefficient = ?, exam_coefficient=?, lastmodified = ?, deleted = ?, status = ?, cycle_id = ?, user_id = ? WHERE id = ?";
+        String sql = "UPDATE SUBJECT SET NAME = ?, PROCESS_COEFFICIENT = ?, EXAM_COEFFICIENT=?, LASTMODIFIED = ?, DELETED = ?, STATUS = ?, CYCLE_ID = ?, TEACHER_ID = ? WHERE ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, subject.getName());
@@ -195,7 +197,7 @@ public class SubjectDAO extends DBConnect{
     }
 
     public void delete(String id) {
-        String sql = "UPDATE subject SET deleted = 1 WHERE id = ?";
+        String sql = "UPDATE SUBJECT SET DELETED = 1 WHERE ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
@@ -205,7 +207,7 @@ public class SubjectDAO extends DBConnect{
         }
     }
     public void lockSubject(String subjectId) {
-        String sql = "UPDATE subject SET status = 1 WHERE id = ?";
+        String sql = "UPDATE SUBJECT SET STATUS = 1 WHERE ID = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -216,7 +218,7 @@ public class SubjectDAO extends DBConnect{
         }
     }
     public void unLockSubject(String subjectId) {
-        String sql = "UPDATE subject SET status = 0 WHERE id = ?";
+        String sql = "UPDATE SUBJECT SET STATUS = 0 WHERE ID = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -227,7 +229,7 @@ public class SubjectDAO extends DBConnect{
         }
     }
     public void updateTimeBySubjectId(Date startDate, Date endDate , String subjectId) {
-        String sql = "UPDATE subject SET start_date = ?, end_date = ? WHERE id = ?";
+        String sql = "UPDATE SUBJECT SET START_DATE = ?, END_DATE = ? WHERE ID = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -240,7 +242,7 @@ public class SubjectDAO extends DBConnect{
         }
     }
     public void deleteTimeBySubjectId(String subjectId) {
-        String sql = "UPDATE subject SET start_date = NULL, end_date = NULL WHERE id = ?";
+        String sql = "UPDATE SUBJECT SET START_DATE = NULL, END_DATE = NULL WHERE ID = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, subjectId);

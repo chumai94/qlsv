@@ -29,12 +29,12 @@ public class ThongKeController extends HttpServlet {
         }
 
 
-        List<Score> scores = new ScoreDAO().getTopStudentsByCycle(cycleId);
+        //List<Score> scores = new ScoreDAO().getTopStudentsByCycle(cycleId);
 
         req.setAttribute("teacher", countTeacher);
         req.setAttribute("student", countStudent);
         req.setAttribute("clazz", countClass);
-        req.setAttribute("scores", scores);
+        //req.setAttribute("scores", scores);
 
 
         List<Cycle> cycles = new CycleDAO().getAll();

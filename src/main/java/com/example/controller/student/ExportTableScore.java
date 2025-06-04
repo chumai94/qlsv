@@ -19,9 +19,9 @@ public class ExportTableScore extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = (String) req.getSession().getAttribute("id");
-        List<ScoreSubject> scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByStudentId(id);
+        //List<ScoreSubject> scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByStudentId(id);
         if ("export-excel".equals(req.getParameter("action"))) {
-            exportToExcel(scoreSubjects, resp);
+            //exportToExcel(scoreSubjects, resp);
         }
     }
     private void exportToExcel(List<ScoreSubject> scoreSubjects, HttpServletResponse resp) throws IOException {
@@ -41,10 +41,10 @@ public class ExportTableScore extends HttpServlet {
             row.createCell(0).setCellValue(stt - 1);
             row.createCell(1).setCellValue(ss.getSubject().getName());
             row.createCell(2).setCellValue(ss.getSubject().getCycle().getName());
-            row.createCell(3).setCellValue(ss.getScoreLaborious());
-            row.createCell(4).setCellValue(ss.getScoreCheck());
+//            row.createCell(3).setCellValue(ss.getScoreLaborious());
+//            row.createCell(4).setCellValue(ss.getScoreCheck());
             row.createCell(5).setCellValue(ss.getScoreFinal());
-            row.createCell(6).setCellValue(total(ss));
+           // row.createCell(6).setCellValue(total(ss));
         }
         // Thiết lập kiểu trả về cho response
         resp.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -54,9 +54,9 @@ public class ExportTableScore extends HttpServlet {
         out.close();
     }
 
-    public double total(ScoreSubject ss) {
-        double total = (ss.getScoreLaborious() + ss.getScoreCheck()) / 2 * ss.getSubject().getProcessCoefficient()
-                + ss.getScoreFinal() * ss.getSubject().getExamCoefficient();
-        return total;
-    }
+//    public double total(ScoreSubject ss) {
+//        double total = (ss.getScoreLaborious() + ss.getScoreCheck()) / 2 * ss.getSubject().getProcessCoefficient()
+//                + ss.getScoreFinal() * ss.getSubject().getExamCoefficient();
+//        return total;
+//    }
 }

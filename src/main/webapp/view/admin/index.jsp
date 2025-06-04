@@ -47,10 +47,7 @@
 								<th>Tên</th>
 								<th>SĐT</th>
 								<th>Email</th>
-								<th>Địa chỉ</th>
 								<th>Ngày sinh</th>
-								<th>Chức vụ</th>
-								<th>Vị trí</th>
 								<th>Trạng thái</th>
 								<th>Thao tác</th>
 							</tr>
@@ -64,16 +61,9 @@
 									<td>${user.name}</td>
 									<td>${user.phone}</td>
 									<td>${user.email}</td>
-									<td>${user.address}</td>
 									<td>${user.dateOfBirth}</td>
-									<td>${user.type == 'giaovien' ? 'Giáo viên' : ''}</td>
-									<td><c:choose>
-											<c:when test="${user.typePosition == 'giang_vien'}">Giảng viên</c:when>
-											<c:when test="${user.typePosition == 'thinh_giang'}">Thỉnh giảng</c:when>
-											<c:otherwise>Không xác định</c:otherwise>
-										</c:choose></td>
 									<c:choose>
-										<c:when test="${user.lockStatus}">
+										<c:when test="${user.status}">
 											<td class="text-danger">Đã khóa</td>
 										</c:when>
 										<c:otherwise>
@@ -88,7 +78,7 @@
 												class="fa-regular fa-pen-to-square"></i>
 											</a>
 											<c:choose>
-												<c:when test="${user.lockStatus}">
+												<c:when test="${user.status}">
 
 													<a href="#" class="text-danger"
 														onclick="confirmUnlock('${user.id}')"> <i

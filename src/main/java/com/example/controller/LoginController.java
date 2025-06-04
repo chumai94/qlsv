@@ -39,7 +39,7 @@ public class LoginController extends HttpServlet {
             req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
             return;
         }
-        if (userFromDb.isLockStatus()) {
+        if (userFromDb.isStatus()) {
             req.setAttribute("error", "Tài khoản của bạn đã bị khóa.");
             req.getRequestDispatcher("/view/login.jsp").forward(req, resp);
             return;
@@ -51,15 +51,15 @@ public class LoginController extends HttpServlet {
             session.setAttribute("id", userLogin.getId());
             session.setAttribute("name", userLogin.getName());
             session.setAttribute("type", userLogin.getType());
-            session.setAttribute("typeposition", userLogin.getTypePosition());
 
-            if ("giaovien".equals(userLogin.getType())) {
-                resp.sendRedirect("/qlsv/teacher");
-            } else if ("sinhvien".equals(userLogin.getType())) {
-                resp.sendRedirect("/qlsv/student");
-            } else  if ("admin".equals(userLogin.getType())){
+            if (0 == userLogin.getType()) {
                 resp.sendRedirect("/qlsv/admin");
             }
+//            } else if ("sinhvien".equals(userLogin.getType())) {
+//                resp.sendRedirect("/qlsv/student");
+//            } else  if ("admin".equals(userLogin.getType())){
+//                resp.sendRedirect("/qlsv/admin");
+//            }
             return;
         }
         failedAttempts++;

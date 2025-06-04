@@ -24,8 +24,8 @@ public class AdminController extends HttpServlet {
         req.setAttribute("teacher",countTeacher);
         req.setAttribute("student",countStudent);
         req.setAttribute("clazz",countClass);
-        List<Cycle> cycles = new CycleDAO().getAll();
-        req.setAttribute("cycles",cycles);
+        //List<Cycle> cycles = new CycleDAO().getAll();
+        //req.setAttribute("cycles",cycles);
         req.setAttribute("activePage", "home");
         req.getRequestDispatcher("/view/admin/admin.jsp").forward(req,resp);
     }

@@ -34,7 +34,7 @@ public class UpdateClassController extends HttpServlet {
         String id = req.getParameter("id");
         String name = req.getParameter("ten");
         String teacherId = req.getParameter("teacher");
-        Teacher teacher = new Teacher(rs.getString("id"), rs.getString("name"), rs.getString("phone"), rs.getString("email"), rs.getString("address"), rs.getDate("date_of_birth"), rs.getString("type"), rs.getDate("starttime"), rs.getDate("endtime"), rs.getDate("create_at"), rs.getDate("lastmodified"), rs.getBoolean("deleted"), rs.getBoolean("lock_status"));
+        Teacher teacher = new Teacher();
         teacher.setId(teacherId);
         Class aClass = new Class();
         aClass.setId(id);
