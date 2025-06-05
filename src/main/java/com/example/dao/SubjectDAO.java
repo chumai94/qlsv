@@ -137,7 +137,9 @@ public class SubjectDAO extends DBConnect{
                         rs.getBoolean("DELETED"),
                         rs.getBoolean("STATUS"),
                         cycle,
-                        users
+                        users,
+                        rs.getDate("START_DATE"),
+                        rs.getDate("END_DATE")
                 );
                 return subject;
             }

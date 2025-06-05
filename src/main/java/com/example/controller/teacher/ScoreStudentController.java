@@ -20,8 +20,8 @@ public class ScoreStudentController extends HttpServlet {
         String teacherId = (String) req.getSession().getAttribute("id");
         String studentId = req.getParameter("studentId");
 
-        //List<ScoreSubject> scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByTeacherAndStudent(teacherId, studentId);
-       // req.setAttribute("ss", scoreSubjects);
+        List<ScoreSubject> scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByTeacherAndStudent(teacherId, studentId);
+        req.setAttribute("ss", scoreSubjects);
         req.setAttribute("activePage", "lophoc");
         req.getRequestDispatcher("/view/teacher/score-sinhvien.jsp").forward(req, resp);
     }

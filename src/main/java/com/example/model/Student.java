@@ -121,6 +121,18 @@ public class Student {
         this.status = status;
     }
 
+    public Student(String id, String name, String phone, String email, Date dateOfBirth, String address, String password, Date startYear, Date endYear) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.password = password;
+        this.startYear = startYear;
+        this.endYear = endYear;
+    }
+
     public Student(String id, String name, String phone, String email, Date dateOfBirth, String address, String password, Date startYear, Date endYear, Date createAt, Date lastmodified, boolean deleted, boolean status) {
         this.id = id;
         this.name = name;

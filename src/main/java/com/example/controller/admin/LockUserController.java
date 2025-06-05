@@ -1,6 +1,7 @@
 package com.example.controller.admin;
 
 import com.example.dao.UserDAO;
+import com.example.model.Student;
 import com.example.model.Teacher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,15 +18,27 @@ public class LockUserController extends HttpServlet {
         String id = req.getParameter("id");
         UserDAO userDAO = new UserDAO();
         Teacher users = userDAO.findById(id);
-//        if (users.getType().equals("giaovien")){
-//            userDAO.lockUser(id);
-//            req.getSession().setAttribute("successMessage", "Khóa người dùng thành công!");
-//            resp.sendRedirect("/qlsv/admin/list-user");
-//        }else{
-//            userDAO.lockUser(id);
-//            req.getSession().setAttribute("successMessage", "Khóa người dùng thành công!");
-//            resp.sendRedirect("/qlsv/admin/sinhvien");
-//        }
+
+        if (users != null) {
+            if (users.getType() == 1) {
+                userDAO.lockUser(id);
+                req.getSession().setAttribute("successMessage", "Khóa người dùng thành công!");
+                resp.sendRedirect("/qlsv/admin/list-user");
+            } else {
+                req.getSession().setAttribute("errorMessage", "Người dùng không hợp lệ!");
+                resp.sendRedirect("/qlsv/admin/list-user");
+            }
+        } else {
+            Student student = userDAO.findStudentById(id);
+            if (student != null) {
+                userDAO.lockStudent(student.getId());
+                req.getSession().setAttribute("successMessage", "Khóa người dùng thành công!");
+                resp.sendRedirect("/qlsv/admin/sinhvien");
+            } else {
+                req.getSession().setAttribute("errorMessage", "Không tìm thấy người dùng hoặc sinh viên!");
+                resp.sendRedirect("/qlsv/admin/list-user");
+            }
+        }
 
     }
 }

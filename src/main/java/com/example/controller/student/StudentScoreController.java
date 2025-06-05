@@ -30,14 +30,14 @@ public class StudentScoreController extends HttpServlet {
         List<ScoreSubject> scoreSubjects;
         double scoreByCycle = 0;
         if ("all".equals(maHocKy)) {
-            //scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByStudentId(id);
+            scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByStudentId(id);
         } else {
             scoreByCycle = new ScoreDAO().getScoreByCycleId(id, maHocKy);
-            //scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByStudentIdAndCycleId(id, maHocKy);
+            scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByStudentIdAndCycleId(id, maHocKy);
         }
         req.setAttribute("diemTong",diemTong);
         req.setAttribute("scoreByCycle", scoreByCycle);
-       // req.setAttribute("ss", scoreSubjects);
+        req.setAttribute("ss", scoreSubjects);
         req.setAttribute("activePage", "tongdiem");
         req.getRequestDispatcher("/view/student/score.jsp").forward(req, resp);
     }

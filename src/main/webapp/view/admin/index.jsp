@@ -19,7 +19,7 @@
 
 				<div class="search-container">
 					<form method="get"
-						action="${pageContext.request.contextPath}/list-user">
+						action="${pageContext.request.contextPath}/admin/list-user">
 						<input type="text" name="keyword" class="search-input"
 							placeholder="Tìm kiếm theo tên..." value="${keyword}">
 						<button class="btn-search" type="submit">Tìm</button>
@@ -207,36 +207,8 @@
 													class="form-control" name="email" required>
 											</div>
 											<div class="col-md-6">
-												<label class="form-label">Địa chỉ</label> <input type="text"
-													class="form-control" name="diachi" required>
-											</div>
-											<div class="col-md-6">
 												<label class="form-label">Ngày sinh</label> <input
 													type="date" class="form-control" name="ngaysinh" required>
-											</div>
-											<div class="col-md-6">
-												<label class="form-label">Ngày bắt đầu</label> <input
-													type="date" class="form-control" name="starttime" required>
-											</div>
-											<div class="col-md-6">
-												<label class="form-label">Ngày kết thúc</label> <input
-													type="date" class="form-control" name="endtime" required>
-											</div>
-											<div class="col-md-6">
-												<label class="form-label">Chức vụ</label> <select
-													id="chucVu" name="chucVu" class="form-select" required>
-													<option value="">Chọn...</option>
-													<option value="giaovien">Giáo Viên</option>
-												</select>
-											</div>
-											<div class="col-md-6">
-												<label class="form-label">Loại chức vụ</label> <select
-													id="loaiChucVu" name="loaiChucVu" class="form-select"
-													required>
-													<option value="">Chọn...</option>
-													<option value="giang_vien">Giảng viên</option>
-													<option value="thinh_giang">Thỉnh giảng</option>
-												</select>
 											</div>
 										</div>
 										<div class="mt-4 text-end">

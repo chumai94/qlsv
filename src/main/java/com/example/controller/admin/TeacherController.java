@@ -51,12 +51,7 @@ public class TeacherController extends HttpServlet {
         String name = req.getParameter("ten");
         String phone = req.getParameter("sdt");
         String email = req.getParameter("email");
-        String address = req.getParameter("diachi");
         String dateOfBirth = req.getParameter("ngaysinh");
-        String startTime = req.getParameter("starttime");
-        String endTime = req.getParameter("endtime");
-        String chucVu = req.getParameter("chucVu");
-        String loaiChucVu = req.getParameter("loaiChucVu");
 
         UserDAO userDAO = new UserDAO();
         Teacher check = userDAO.findById(id);

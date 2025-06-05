@@ -22,7 +22,7 @@ public class CycleDAO extends DBConnect{
                 cycle.setDescription(rs.getString("DESCRIPTION"));
                 cycle.setStartDate(rs.getDate("START_DATE"));
                 cycle.setEndDate(rs.getDate("END_DATE"));
-                cycle.setCreateAt(rs.getDate("CREATE_AT"));
+                cycle.setCreateAt(rs.getDate("CREATED_AT"));
                 cycle.setLastmodified(rs.getDate("LASTMODIFIED"));
                 cycle.setDeleted(rs.getBoolean("DELETED"));
                 cycle.setStatus(rs.getBoolean("STATUS"));
@@ -68,7 +68,7 @@ public class CycleDAO extends DBConnect{
                 cycle.setDescription(rs.getString("DESCRIPTION"));
                 cycle.setStartDate(rs.getDate("START_DATE"));
                 cycle.setEndDate(rs.getDate("END_DATE"));
-                cycle.setCreateAt(rs.getDate("CREATE_AT"));
+                cycle.setCreateAt(rs.getDate("CREATED_AT"));
                 cycle.setLastmodified(rs.getDate("LASTMODIFIED"));
                 cycle.setDeleted(rs.getBoolean("DELETED"));
                 cycle.setStatus(rs.getBoolean("STATUS"));

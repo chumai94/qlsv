@@ -17,9 +17,9 @@ public class ScoreStudentController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String classId = req.getParameter("id");
         String studentId = req.getParameter("studentId");
-        //List<ScoreSubject> scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByClassAndStudent(classId,studentId);
+        List<ScoreSubject> scoreSubjects = new ScoreSubjectDAO().getScoreSubjectByClassAndStudent(classId,studentId);
         req.setAttribute("classId",classId);
-       // req.setAttribute("ss", scoreSubjects);
+        req.setAttribute("ss", scoreSubjects);
         req.setAttribute("activePage", "lophoc");
         req.getRequestDispatcher("/view/admin/score-sinhvien.jsp").forward(req,resp);
     }

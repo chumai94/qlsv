@@ -5,6 +5,7 @@ import com.example.dao.CycleDAO;
 import com.example.dao.ScoreDAO;
 import com.example.dao.UserDAO;
 import com.example.model.Cycle;
+import com.example.model.ScoreSubject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,12 +30,12 @@ public class ThongKeController extends HttpServlet {
         }
 
 
-        //List<Score> scores = new ScoreDAO().getTopStudentsByCycle(cycleId);
+        List<ScoreSubject> scores = new ScoreDAO().getTopStudentsByCycle(cycleId);
 
         req.setAttribute("teacher", countTeacher);
         req.setAttribute("student", countStudent);
         req.setAttribute("clazz", countClass);
-        //req.setAttribute("scores", scores);
+        req.setAttribute("scores", scores);
 
 
         List<Cycle> cycles = new CycleDAO().getAll();

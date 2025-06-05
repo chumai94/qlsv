@@ -14,11 +14,9 @@ import java.util.List;
 public class ClassUserDAO extends DBConnect{
     public List<Class_Student> getStudentsByTeacher(String teacherId, String classId) {
         List<Class_Student> list = new ArrayList<>();
-        String sql = "SELECT c.*, u.* " +
-                "FROM CLASS c " +
-                "JOIN CLASS_STUDENT cu ON c.ID = cu.CLASS_ID " +
-                "JOIN STUDENT u ON cu.STUDENT_ID = u.ID " +
-                "WHERE c.TEACHER_ID = ? AND c.ID = ? AND c.DELETED = 0 AND u.DELETED = 0";
+        String sql = "SELECT * FROM CLASS_STUDENT c " +
+                "JOIN CLASS cu ON c.CLASS_ID = cu.ID " +
+                "WHERE cu.TEACHER_ID = ? AND cu.ID = ? ";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, teacherId);
@@ -26,34 +24,10 @@ public class ClassUserDAO extends DBConnect{
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Student student = new Student(
-                        rs.getString("u.ID"),
-                        rs.getString("u.NAME"),
-                        rs.getString("u.PHONE"),
-                        rs.getString("u.MAIL"),
-                        rs.getDate("u.DATE_OF_BIRTH"),
-                        rs.getString("u.ADDRESS"),
-                        null,
-                        rs.getDate("u.START_YEAR"),
-                        rs.getDate("u.END_YEAR"),
-                        rs.getDate("u.CREATE_AT"),
-                        rs.getDate("u.LASTMODIFIED"),
-                        rs.getBoolean("u.DELETED"),
-                        rs.getBoolean("u.STATUS")
-                );
+                Student student = new UserDAO().findStudentById(rs.getString("STUDENT_ID"));
+                Class aClass = new ClassDAO().getById(rs.getString("CLASS_ID"));
 
-                Class clazz = new Class(
-                        rs.getString("c.ID"),
-                        rs.getString("c.NAME"),
-                        rs.getString("c.DESCRIPTION"),
-                        rs.getDate("c.CREATE_AT"),
-                        rs.getDate("c.LASTMODIFIED"),
-                        rs.getBoolean("c.DELETED"),
-                        rs.getBoolean("c.STATUS"),
-                        null
-                );
-
-                list.add(new Class_Student(student, clazz));
+                list.add(new Class_Student(student, aClass));
             }
 
             rs.close();

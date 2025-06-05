@@ -23,25 +23,13 @@ public class ClassDAO extends DBConnect {
             pst.setString(1, teacherId);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                Teacher teacher = new Teacher(
-                        rs.getString("ID"),
-                        rs.getString("NAME"),
-                        rs.getString("PHONE"),
-                        rs.getString("MAIL"),
-                        rs.getDate("DATE_OF_BIRTH"),
-                        rs.getInt("TYPE"),
-                        null,
-                        rs.getDate("CREATE_AT"),
-                        rs.getDate("LASSMODIFIED"),
-                        rs.getBoolean("DELETED"),
-                        rs.getBoolean("STATUS")
-                );
+                Teacher teacher = new UserDAO().findById(rs.getString("TEACHER_ID"));
 
                 Class clazz = new Class(
                         rs.getString("ID"),
                         rs.getString("NAME"),
                         rs.getString("DESCRIPTION"),
-                        rs.getDate("CREATE_AT"),
+                        rs.getDate("CREATED_AT"),
                         rs.getDate("LASTMODIFIED"),
                         rs.getBoolean("DELETED"),
                         rs.getBoolean("STATUS"),
@@ -73,7 +61,7 @@ public class ClassDAO extends DBConnect {
                         rs.getString("ID"),
                         rs.getString("NAME"),
                         rs.getString("DESCRIPTION"),
-                        rs.getDate("CREATE_AT"),
+                        rs.getDate("CREATED_AT"),
                         rs.getDate("LASTMODIFIED"),
                         rs.getBoolean("DELETED"),
                         rs.getBoolean("STATUS"),
@@ -93,13 +81,13 @@ public class ClassDAO extends DBConnect {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                String teacherId = rs.getString("teacher_id");
+                String teacherId = rs.getString("TEACHER_ID");
                 Teacher teacher = new UserDAO().findById(teacherId);
                 Class clazz = new Class(
                         rs.getString("ID"),
                         rs.getString("NAME"),
-                        rs.getString("DESCRIPTION"),
-                        rs.getDate("CREATE_AT"),
+                        rs.getString(null),
+                        rs.getDate("CREATED_AT"),
                         rs.getDate("LASTMODIFIED"),
                         rs.getBoolean("DELETED"),
                         rs.getBoolean("STATUS"),
@@ -126,7 +114,7 @@ public class ClassDAO extends DBConnect {
                 cls.setId(rs.getString("ID"));
                 cls.setName(rs.getString("NAME"));
                 cls.setDescription(rs.getString("DESCRIPTION"));
-                cls.setCreatedAt(rs.getDate("CREATE_AT"));
+                cls.setCreatedAt(rs.getDate("CREATED_AT"));
                 cls.setLastModified(rs.getDate("LASTMODIFIED"));
                 cls.setDeleted(rs.getBoolean("DELETED"));
                 cls.setStatus(rs.getBoolean("STATUS"));
@@ -206,7 +194,7 @@ public class ClassDAO extends DBConnect {
         }
     }
     public void delete(String classId) {
-        String sql = "UPDATE class SET deleted = 1 WHERE id = ?";
+        String sql = "UPDATE CLASS SET DELETED = 1 WHERE ID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1,classId );
             ps.executeUpdate();
@@ -215,7 +203,7 @@ public class ClassDAO extends DBConnect {
         }
     }
     public void unDelete(String classId) {
-        String sql = "UPDATE class SET deleted = 0 WHERE id = ?";
+        String sql = "UPDATE CLASS SET DELETED = 0 WHERE ID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1,classId );
             ps.executeUpdate();
@@ -224,7 +212,7 @@ public class ClassDAO extends DBConnect {
         }
     }
     public void lock(String classId) {
-        String sql = "UPDATE class SET status = 1 WHERE id = ?";
+        String sql = "UPDATE CLASS SET STATUS = 1 WHERE ID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1,classId );
             ps.executeUpdate();
@@ -233,7 +221,7 @@ public class ClassDAO extends DBConnect {
         }
     }
     public void unLock(String classId) {
-        String sql = "UPDATE class SET status = 0 WHERE id = ?";
+        String sql = "UPDATE CLASS SET STATUS = 0 WHERE ID = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1,classId );
             ps.executeUpdate();
@@ -242,7 +230,7 @@ public class ClassDAO extends DBConnect {
         }
     }
     public int countClasses() {
-        String sql = "SELECT COUNT(*) FROM class WHERE deleted = 0";
+        String sql = "SELECT COUNT(*) FROM CLASS WHERE DELETED = 0";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             if (rs.next()) return rs.getInt(1);

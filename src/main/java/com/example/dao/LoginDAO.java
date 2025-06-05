@@ -1,6 +1,7 @@
 package com.example.dao;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.example.model.Student;
 import com.example.model.Teacher;
 
 import java.sql.PreparedStatement;
@@ -44,8 +45,8 @@ public class LoginDAO extends DBConnect{
 
 		return null;
 	}
-	public Teacher loginStudent(String username, String password) {
-		String sql = "SELECT STUDENT WHERE ID = ? AND DELETED = 0";
+	public Student loginStudent(String username, String password) {
+		String sql = "SELECT * FROM STUDENT WHERE ID = ? AND DELETED = 0";
 
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -56,16 +57,18 @@ public class LoginDAO extends DBConnect{
 				String hashedPassword = rs.getString("PASSWORD");
 				BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hashedPassword);
 				if (result.verified) {
-					return new Teacher(
+					return new Student(
 							rs.getString("ID"),
 							rs.getString("NAME"),
 							rs.getString("PHONE"),
-							rs.getString("MAIL"),
+							rs.getString("EMAIL"),
 							rs.getDate("DATE_OF_BIRTH"),
-							rs.getInt("TYPE"),
-							hashedPassword,
+							rs.getString("ADDRESS"),
+							null,
+							rs.getDate("START_YEAR"),
+							rs.getDate("END_YEAR"),
 							rs.getDate("CREATE_AT"),
-							rs.getDate("LASSMODIFIED"),
+							rs.getDate("LASTMODIFIED"),
 							rs.getBoolean("DELETED"),
 							rs.getBoolean("STATUS")
 					);

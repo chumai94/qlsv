@@ -60,19 +60,19 @@ public class UserDAO extends DBConnect{
         List<Student> usersList = new ArrayList<>();
         String sql = "SELECT * FROM STUDENT " +
                 "WHERE DELETED = 0 AND NAME LIKE ? " +
-                "LIMIT ? OFFSET ?";
+                "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         try {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, "%" + keyword + "%");
-            pst.setInt(2, limit);
-            pst.setInt(3, offset);
+            pst.setInt(2, offset);
+            pst.setInt(3, limit);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Student user = new Student(
                         rs.getString("ID"),
                         rs.getString("NAME"),
                         rs.getString("PHONE"),
-                        rs.getString("MAIL"),
+                        rs.getString("EMAIL"),
                         rs.getDate("DATE_OF_BIRTH"),
                         rs.getString("ADDRESS"),
                         null,
@@ -120,7 +120,7 @@ public class UserDAO extends DBConnect{
                         rs.getInt("TYPE"),
                         null,
                         rs.getDate("CREATE_AT"),
-                        rs.getDate("LASSMODIFIED"),
+                        rs.getDate("LASTMODIFIED"),
                         rs.getBoolean("DELETED"),
                         rs.getBoolean("STATUS")
                 );
@@ -198,7 +198,7 @@ public class UserDAO extends DBConnect{
                         rs.getString("ID"),
                         rs.getString("NAME"),
                         rs.getString("PHONE"),
-                        rs.getString("MAIL"),
+                        rs.getString("EMAIL"),
                         rs.getDate("DATE_OF_BIRTH"),
                         rs.getString("ADDRESS"),
                         null,
@@ -265,8 +265,8 @@ public class UserDAO extends DBConnect{
         }
     }
     public void updateUser(Teacher user) {
-        String sql = "UPDATE TEACHER SET NAME = ?, PHONE = ?, MAIL = ?, DATE_OF_BIRTH = ?, TYPE = ?, PASSWORD = ?, "
-                     + " LASTMODIFIED = ?, DELETED = ?, STATUS = ? WHERE ID = ?";
+        String sql = "UPDATE TEACHER SET NAME = ?, PHONE = ?, MAIL = ?, DATE_OF_BIRTH = ?, "
+                     + " LASTMODIFIED = ? WHERE ID = ?";
 
         try {
         	PreparedStatement ps = conn.prepareStatement(sql);
@@ -274,12 +274,8 @@ public class UserDAO extends DBConnect{
             ps.setString(2, user.getPhone());
             ps.setString(3, user.getEmail());
             ps.setDate(4, new java.sql.Date(user.getDateOfBirth().getTime()));
-            ps.setInt(5, user.getType());
-            ps.setString(6, user.getPassword());
-            ps.setDate(7, new java.sql.Date(user.getLastmodified().getTime()));
-            ps.setBoolean(8, user.isDeleted());
-            ps.setBoolean(9, user.isStatus());
-            ps.setString(10, user.getId());
+            ps.setDate(5, new java.sql.Date(user.getLastmodified().getTime()));
+            ps.setString(6, user.getId());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -287,7 +283,27 @@ public class UserDAO extends DBConnect{
         }
     }
 
-   
+    public void updateStudent(Student student) {
+        String sql = "UPDATE STUDENT SET NAME = ?, START_YEAR = ?, END_YEAR = ?, DATE_OF_BIRTH = ?, " +
+                "ADDRESS = ?, PHONE = ?, EMAIL = ? LASTMODIFIED = ? " +
+                "WHERE ID = ? ";
+
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, student.getName());
+            pst.setDate(2, student.getStartYear());
+            pst.setDate(3, student.getEndYear());
+            pst.setDate(4, student.getDateOfBirth());
+            pst.setString(5, student.getAddress());
+            pst.setString(6, student.getPhone());
+            pst.setString(7, student.getEmail());
+            pst.setString(8, student.getId());
+
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void deleteUser(String userId) {
         String sql = "UPDATE TEACHER SET DELETED = 1 WHERE ID = ?";
 
@@ -371,7 +387,7 @@ public class UserDAO extends DBConnect{
                         rs.getString("ID"),
                         rs.getString("NAME"),
                         rs.getString("PHONE"),
-                        rs.getString("MAIL"),
+                        rs.getString("EMAIL"),
                         rs.getDate("DATE_OF_BIRTH"),
                         rs.getString("ADDRESS"),
                         null,

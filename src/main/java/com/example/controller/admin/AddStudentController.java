@@ -33,8 +33,6 @@ public class AddStudentController extends HttpServlet {
         String dateOfBirth = req.getParameter("ngaysinh");
         String startTime = req.getParameter("starttime");
         String endTime = req.getParameter("endtime");
-        String chucVu = req.getParameter("chucVu");
-        String loaiChucVu = req.getParameter("loaiChucVu");
 
 
         String hashedPassword = BCrypt.withDefaults().hashToString(12,dateOfBirth.toCharArray());
