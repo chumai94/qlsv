@@ -336,4 +336,20 @@ public class UserDAO extends DBConnect{
         }
         return 0;
     }
+
+
+    public String genUserCode(String role) {
+        String sql = "SELECT QLSV.GEN_USER_ID(?) FROM DUAL";
+        try {
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, role);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return "";
+    }
 }

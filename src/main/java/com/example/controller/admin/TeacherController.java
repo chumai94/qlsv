@@ -17,6 +17,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -69,7 +70,13 @@ public class TeacherController extends HttpServlet {
         }
         String hashedPassword = BCrypt.withDefaults().hashToString(12, dateOfBirth.toCharArray());
         Users user = new Users();
+
+
         user.setId(id);
+        // Sinh mã người dùng
+        var userCode = userDAO.genUserCode("USER");
+        if(Objects.nonNull(userCode)) user.setId(userCode);
+
         user.setName(name);
         user.setPhone(phone);
         user.setEmail(email);
@@ -86,6 +93,7 @@ public class TeacherController extends HttpServlet {
 
         Login login = new Login();
         login.setId(UUID.randomUUID().toString());
+
         login.setUsername(id);
         login.setPassword(hashedPassword);
         login.setDeleted(false);
