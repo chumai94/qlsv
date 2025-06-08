@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Objects;
 
 @WebServlet("/admin/update-user")
 public class UpdateUserController extends HttpServlet {
@@ -42,6 +43,9 @@ public class UpdateUserController extends HttpServlet {
         user.setLastmodified(new java.sql.Date(System.currentTimeMillis()));
         UserDAO userDAO = new UserDAO();
 
+        // Sinh mã người dùng
+        var userCode = userDAO.genUserCode("TEACHER");
+        if(Objects.nonNull(userCode)) user.setId(userCode);
 
         try {
             userDAO.updateUser(user);

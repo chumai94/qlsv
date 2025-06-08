@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 @WebServlet("/admin/add-sinhvien")
@@ -52,6 +53,10 @@ public class AddStudentController extends HttpServlet {
         user.setPassword(hashedPassword);
 
         UserDAO userDAO = new UserDAO();
+
+        // Sinh mã người dùng
+        var userCode = userDAO.genUserCode("USER");
+        if(Objects.nonNull(userCode)) user.setId(userCode);
         try {
             userDAO.addStudent(user);
 

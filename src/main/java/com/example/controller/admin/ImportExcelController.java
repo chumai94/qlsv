@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -43,6 +44,11 @@ public class ImportExcelController extends HttpServlet {
                 try {
                     Student user = new Student();
                     user.setId(getCellStringValue(row.getCell(0)));
+
+                    // Sinh mã người dùng
+                    var userCode = userDAO.genUserCode("USER");
+                    if(Objects.nonNull(userCode)) user.setId(userCode);
+
                     user.setName(getCellStringValue(row.getCell(1)));
                     user.setAddress(getCellStringValue(row.getCell(2)));
                     user.setPhone(getCellStringValue(row.getCell(3)));
